@@ -15,14 +15,13 @@ import org.jsoup.nodes.Document;
 public class Scraper {
     private static final int JANUARY = 1;
     private static final int DECEMBER = 12;
-    private final String country = "usa";
-    private final String city = "honolulu";
+    private final String country = "canada";
+    private final String city = "vancouver";
     private String domain;
     private String astronomyDir;
     private String weatherDir;
     private String url;
     private Document doc;
-    private Parser parser;
     
     /**
      * Constructs a Scraper object.
@@ -33,21 +32,23 @@ public class Scraper {
         domain = webAddress;
         astronomyDir = "sun/" + country + "/" + city;
         weatherDir = "weather/" + country + "/" + city;
-        parser = new Parser();
-        
+    }
+    
+    
+    public void scrapeAstronomyAndWeather(Parser webParser) {
         for (int month = JANUARY; month <= DECEMBER; month++) {
-            scrapeAstronomy(month);
+            scrapeAstronomy(month, webParser);
         }
         
-        scrapeWeather();
+        scrapeWeather(webParser);
     }
     
     /**
      * Scrapes astronmy HTML data for the requested month.
      * 
-     * @param month - The month to be scraped
+     * @param month - The month to scrape astronomy data for
      */
-    public void scrapeAstronomy(int month) {
+    public void scrapeAstronomy(int month, Parser parser) {
         try {
             url = domain + astronomyDir + "?month=" + month;
             doc = Jsoup.connect(url).get();
@@ -64,7 +65,7 @@ public class Scraper {
     /**
      * Scrapes weather HTML data.
      */
-    public void scrapeWeather() {
+    public void scrapeWeather(Parser parser) {
         try {
             url = domain + weatherDir;
             doc = Jsoup.connect(url).get();
@@ -76,23 +77,5 @@ public class Scraper {
         } catch (IOException i) {
             i.printStackTrace();
         }
-    }
-    
-    /**
-     * Gets the astronomy arrays from the parser.
-     * 
-     * @return - astronomyArrays
-     */
-    public AstronomyArrays getAstronomyArrays() {
-        return parser.getAstronomyArrays();
-    }
-    
-    /**
-     * Gets the weather arrays from the parser.
-     * 
-     * @return - weatherArrays
-     */
-    public WeatherArrays getWeatherArrays() {
-        return parser.getWeatherArrays();
     }
 }

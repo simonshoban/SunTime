@@ -1,6 +1,11 @@
 package main;
 
 import gui.WindowFrame;
+import gui.MainContainer;
+import data.AstronomyArrays;
+import data.Parser;
+import data.Scraper;
+import data.WeatherArrays;
 
 /**
  * Drives the program.
@@ -24,11 +29,19 @@ public final class Main {
      * 
      * @param args - unused
      */
-    public static void main(String[] args) {      
-        WindowFrame windowFrame = new WindowFrame(
-                WINDOW_WIDTH, 
-                WINDOW_HEIGHT, 
-                webAddress
-                );
+    public static void main(String[] args) {
+        Parser webParser = new Parser();
+        Scraper webScraper = new Scraper(webAddress);
+        
+        webScraper.scrapeAstronomyAndWeather(webParser);
+        
+        AstronomyArrays astronomyData = webParser.getAstronomyArrays();
+        WeatherArrays weatherData = webParser.getWeatherArrays();
+        
+        MainContainer container = new MainContainer(astronomyData, weatherData);
+        WindowFrame windowFrame = new WindowFrame(WINDOW_WIDTH, WINDOW_HEIGHT);
+        
+        container.init();
+        windowFrame.add(container);
     }
 }

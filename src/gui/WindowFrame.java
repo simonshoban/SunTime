@@ -1,8 +1,7 @@
 package gui;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 /**
@@ -17,17 +16,24 @@ public class WindowFrame extends JFrame {
      * 
      * @param windowWidth - The width of the WindowFrame
      * @param windowHeight - The height of the WindowFrame
-     * @param webAddress - The web address to scrape data from
      */
-    public WindowFrame(int windowWidth, int windowHeight, String webAddress) {
-        MainContainer container = new MainContainer(webAddress);
-        
-        container.init();
+    public WindowFrame(int windowWidth, int windowHeight) {
         setTitle("Weather");
-        add(container);
-        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(windowWidth, windowHeight));
         setVisible(true);
+    }
+    
+    /**
+     * Revalidates the WindowFrame every time something is added.
+     * 
+     * @param comp - The component to be added to the WindowFrame
+     * @return - returns the same component for some reason
+     */
+    public Component add(Component comp) {
+        super.add(comp);
+        revalidate();
+        
+        return comp;
     }
 }

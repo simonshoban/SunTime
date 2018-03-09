@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import data.Scraper;
+import data.WeatherArrays;
+import data.AstronomyArrays;
 
 /**
  * The outermost JPanel container.
@@ -20,7 +21,6 @@ import data.Scraper;
 public class MainContainer extends JPanel {
     private static final int TIMER_DELAY = 1000;
     private ArrayList<SunTimePanel> sunTimePanels;
-    private Scraper scraper;
     private WeatherPanel temperaturePanel;
     private AstronomyPanel sunPanel;
     private TimePanel timePanel;
@@ -29,15 +29,12 @@ public class MainContainer extends JPanel {
     
     /**
      * Constructs a MainContainer object.
-     * 
-     * @param webAddress - The web address to be passed to the Scraper object
      */
-    public MainContainer(String webAddress) {
+    public MainContainer(AstronomyArrays astronomyArrays, WeatherArrays weatherArrays) {
         setLayout(new BorderLayout());
         
-        scraper = new Scraper(webAddress);
-        sunPanel = new AstronomyPanel(scraper.getAstronomyArrays());
-        temperaturePanel = new WeatherPanel(scraper.getWeatherArrays());
+        sunPanel = new AstronomyPanel(astronomyArrays);
+        temperaturePanel = new WeatherPanel(weatherArrays);
         timePanel = new TimePanel();       
         sliderPanel = new SliderPanel(this);
         
