@@ -15,9 +15,8 @@ import org.jsoup.nodes.Document;
 public class Scraper {
     private static final int JANUARY = 1;
     private static final int DECEMBER = 12;
-    private final String country = "canada";
-    private final String city = "vancouver";
     private String domain;
+    private String domainExtension;
     private String astronomyDir;
     private String weatherDir;
     private String url;
@@ -28,13 +27,30 @@ public class Scraper {
      * 
      * @param webAddress - The website to be scraped
      */
-    public Scraper(String webAddress) {     
-        domain = webAddress;
-        astronomyDir = "sun/" + country + "/" + city;
-        weatherDir = "weather/" + country + "/" + city;
+    public Scraper(WebAddress webAddress) {     
+        domain = webAddress.getDomain();
+        domainExtension = webAddress.getCountry() + "/" + webAddress.getCity();
+        astronomyDir = "sun/" + domainExtension;
+        weatherDir = "weather/" + domainExtension;
     }
     
+    /**
+     * Change the city to scrape information from.
+     * 
+     * @param newCity - The new city to scrape information for
+     * @param newCountry - The country that the new city belongs to
+     */
+    public void changeCity(String newCity, String newCountry) {
+        domainExtension = newCountry + "/" + newCity;
+        astronomyDir = "sun/" + domainExtension;
+        weatherDir = "weather/" + domainExtension;
+    }
     
+    /**
+     * Scrapes astronomy and weather information for the city.
+     * 
+     * @param webParser - The Parser that parses the astronomy and weather data
+     */
     public void scrapeAstronomyAndWeather(Parser webParser) {
         for (int month = JANUARY; month <= DECEMBER; month++) {
             scrapeAstronomy(month, webParser);
@@ -44,9 +60,10 @@ public class Scraper {
     }
     
     /**
-     * Scrapes astronmy HTML data for the requested month.
+     * Scrapes astronomy HTML data for the requested month.
      * 
      * @param month - The month to scrape astronomy data for
+     * @param parser - The Parser that parses the astronomy data
      */
     public void scrapeAstronomy(int month, Parser parser) {
         try {
@@ -64,6 +81,8 @@ public class Scraper {
     
     /**
      * Scrapes weather HTML data.
+     * 
+     * @param parser - The Parser that parses the weather data
      */
     public void scrapeWeather(Parser parser) {
         try {

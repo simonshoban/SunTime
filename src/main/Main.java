@@ -4,8 +4,8 @@ import gui.WindowFrame;
 import gui.MainContainer;
 import data.AstronomyArrays;
 import data.Parser;
-import data.Scraper;
 import data.WeatherArrays;
+import data.WebAddress;
 
 /**
  * Drives the program.
@@ -14,9 +14,11 @@ import data.WeatherArrays;
  * @version 1.0
  */
 public final class Main {
-    private static String webAddress = "https://www.timeanddate.com/";
     private static final int WINDOW_WIDTH = 1920;
     private static final int WINDOW_HEIGHT = 1080;
+    private static String domain = "https://www.timeanddate.com/";
+    private static String city = "vancouver";
+    private static String country = "canada";
     
     /**
      * Prevents the creation of Main objects.
@@ -30,10 +32,8 @@ public final class Main {
      * @param args - unused
      */
     public static void main(String[] args) {
-        Parser webParser = new Parser();
-        Scraper webScraper = new Scraper(webAddress);
-        
-        webScraper.scrapeAstronomyAndWeather(webParser);
+        WebAddress webAddress = new WebAddress(domain, country, city);
+        Parser webParser = new Parser(webAddress);
         
         AstronomyArrays astronomyData = webParser.getAstronomyArrays();
         WeatherArrays weatherData = webParser.getWeatherArrays();
@@ -43,5 +43,6 @@ public final class Main {
         
         container.init();
         windowFrame.add(container);
+        windowFrame.init();
     }
 }

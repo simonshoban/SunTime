@@ -29,6 +29,9 @@ public class MainContainer extends JPanel {
     
     /**
      * Constructs a MainContainer object.
+     * 
+     * @param astronomyArrays - The AstronomyArrays needed to construct the AstronomyPanel
+     * @param weatherArrays - The WeatherArrays needed to construct the WeatherPanel
      */
     public MainContainer(AstronomyArrays astronomyArrays, WeatherArrays weatherArrays) {
         setLayout(new BorderLayout());

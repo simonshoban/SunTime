@@ -25,7 +25,7 @@ public class WeatherPanel extends SunTimePanel {
             60);
     
     private JLabel temperature;
-    private JSlider fiveHours;
+    private JSlider nextFiveHours;
     private WeatherArrays weatherArrays;
     
     /**
@@ -36,7 +36,7 @@ public class WeatherPanel extends SunTimePanel {
     public WeatherPanel(WeatherArrays weatherArrays) {
         this.weatherArrays = weatherArrays;
         temperature = new JLabel(weatherArrays.getNextFiveHours()[0]);
-        fiveHours = new JSlider(JSlider.VERTICAL, 0, 4, 0);
+        nextFiveHours = new JSlider(JSlider.VERTICAL, 0, 5, 0);
     }
     
     /**
@@ -64,7 +64,7 @@ public class WeatherPanel extends SunTimePanel {
      * Sets the background colour of the elements.
      */
     private void setElementBackground() {
-        fiveHours.setBackground(getBackgroundColour());
+        nextFiveHours.setBackground(getBackgroundColour());
     }
     
     /**
@@ -72,7 +72,7 @@ public class WeatherPanel extends SunTimePanel {
      */
     private void setElementForeground() {
         temperature.setForeground(Color.white);
-        fiveHours.setForeground(Color.white);
+        nextFiveHours.setForeground(Color.white);
     }
     
     /**
@@ -87,9 +87,9 @@ public class WeatherPanel extends SunTimePanel {
      * Adds a ChangeListener to the JSlider.
      */
     private void addSliderListener() {
-        fiveHours.addChangeListener(new ChangeListener() {
+        nextFiveHours.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                updateFiveHourInformation(fiveHours.getValue());
+                updateFiveHourInformation(nextFiveHours.getValue());
             }
         });        
     }
@@ -98,23 +98,23 @@ public class WeatherPanel extends SunTimePanel {
      * Sets and enables slider tickers.
      */
     private void setSliderTickers() {
-        fiveHours.setMajorTickSpacing(1);
-        fiveHours.setPaintLabels(true);
+        nextFiveHours.setMajorTickSpacing(1);
+        nextFiveHours.setPaintLabels(true);
     }
     
     /**
      * Set the slider size and inverts the direction.
      */
     private void setSliderSize() {
-        //fiveHours.setPreferredSize(new Dimension(50, 10));
-        fiveHours.setInverted(true);
+        //nextFiveHours.setPreferredSize(new Dimension(50, 10));
+        nextFiveHours.setInverted(true);
     }
     
     /**
      * Adds the Swing elements to the WeatherPanel.
      */
     private void addElements() {
-        add(fiveHours, BorderLayout.WEST);
+        add(nextFiveHours, BorderLayout.WEST);
         add(temperature, BorderLayout.CENTER);        
     }
     
@@ -130,8 +130,8 @@ public class WeatherPanel extends SunTimePanel {
     @Override
     public void updateColours() {
         super.updateColours();
-        if (fiveHours != null) {
-            fiveHours.setBackground(getBackgroundColour());
+        if (nextFiveHours != null) {
+            nextFiveHours.setBackground(getBackgroundColour());
         }
     }
 }

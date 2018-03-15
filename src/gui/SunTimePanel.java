@@ -6,6 +6,12 @@ import java.time.LocalDateTime;
 
 import javax.swing.JPanel;
 
+/**
+ * A JPanel that changes its background colour depending on the time of day.
+ * 
+ * @author Simon Shoban
+ * @version 1.0
+ */
 public class SunTimePanel extends JPanel {
     private static final int RED_MORNING = 0;
     private static final int GREEN_MORNING = 36;

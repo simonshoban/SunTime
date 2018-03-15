@@ -11,15 +11,19 @@ import org.jsoup.select.Elements;
  * @version 1.0
  */
 public class Parser {
-    private static final int SIZE_OF_TEMPERATURES = 5;
+    private static final int SIZE_OF_TEMPERATURES = 6;
     private AstronomyArrays astronomyArrays;
     private WeatherArrays weatherArrays;
     
     /**
      * Constructs a Parser object.
+     * 
+     * @param webAddress - The web address to parse scraped information from
      */
-    public Parser() {
+    public Parser(WebAddress webAddress) {
         astronomyArrays = new AstronomyArrays();
+        Scraper webScraper = new Scraper(webAddress);
+        webScraper.scrapeAstronomyAndWeather(this);
     }
     
     /**
