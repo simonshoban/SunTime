@@ -4,9 +4,13 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import org.apache.commons.io.FileUtils;
 
 public class ImagePanel extends JPanel {
     
@@ -14,10 +18,18 @@ public class ImagePanel extends JPanel {
     
     public ImagePanel(String fileLocation) {
         try {
-            image = ImageIO.read(new File(fileLocation));
+            URL url = new URL(fileLocation);
+            File file = new File("not_null");
+            
+            FileUtils.copyURLToFile(url, file);
+            image = ImageIO.read(file);
         } catch (IOException i) {
             i.printStackTrace();
         }
+    }
+    
+    public BufferedImage getImage() {
+        return image;
     }
     
     @Override

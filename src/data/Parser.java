@@ -4,6 +4,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import gui.ImagePanel;
+
 /**
  * Parses HTML data into something more useful.
  * 
@@ -46,14 +48,20 @@ public class Parser {
     public void parseWeatherData(Document document) {
         Element table = document.getElementById("wt-5hr").child(0);
         Element temperatureRow = table.getElementsByClass("soft").first();
+        Elements images = table.getElementsByTag("img");
         Elements temperature = temperatureRow.getElementsByTag("td");
         String[] temperatures = new String[SIZE_OF_TEMPERATURES];
+        ImagePanel[] imagePanels = new ImagePanel[SIZE_OF_TEMPERATURES];
         
         for (int index = 0; index < SIZE_OF_TEMPERATURES; index++) {
             temperatures[index] = temperature.get(index).text();
+            String imageLocation = images.get(index).absUrl("src");
+            System.out.println(images.get(index).absUrl("src"));
+            imagePanels[index] = new ImagePanel(imageLocation);
         }
         
         weatherArrays = new WeatherArrays(temperatures);
+        weatherArrays.insertWeatherImages(imagePanels);
     }
     
     /**

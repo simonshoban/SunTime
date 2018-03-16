@@ -1,5 +1,7 @@
 package data;
 
+import gui.ImagePanel;
+
 /**
  * Holds weather data from timeanddate.com.
  * 
@@ -8,6 +10,7 @@ package data;
  */
 public class WeatherArrays {
     private String[] nextFiveHours;
+    private ImagePanel[] weatherImages;
     
     /**
      * Constructs a WeatherArrays object.
@@ -28,6 +31,10 @@ public class WeatherArrays {
         nextFiveHours = temperatures;
     }
     
+    public void insertWeatherImages(ImagePanel[] images) {
+        weatherImages = images;
+    }
+    
     /**
      * Gets the next five hours of temperature data from the weather array.
      * 
@@ -35,5 +42,9 @@ public class WeatherArrays {
      */
     public String[] getNextFiveHours() {
         return nextFiveHours;
+    }
+    
+    public ImagePanel[] getWeatherImages() {
+        return weatherImages;
     }
 }

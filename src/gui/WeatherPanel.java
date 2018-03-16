@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -26,6 +27,7 @@ public class WeatherPanel extends SunTimePanel {
     
     private JLabel temperature;
     private JSlider nextFiveHours;
+    private JLabel image;
     private WeatherArrays weatherArrays;
     
     /**
@@ -36,6 +38,7 @@ public class WeatherPanel extends SunTimePanel {
     public WeatherPanel(WeatherArrays weatherArrays) {
         this.weatherArrays = weatherArrays;
         temperature = new JLabel(weatherArrays.getNextFiveHours()[0]);
+        image = new JLabel(new ImageIcon(weatherArrays.getWeatherImages()[0].getImage()));
         nextFiveHours = new JSlider(JSlider.VERTICAL, 0, 5, 0);
     }
     
@@ -90,6 +93,7 @@ public class WeatherPanel extends SunTimePanel {
         nextFiveHours.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 updateFiveHourInformation(nextFiveHours.getValue());
+                updateWeatherImage(nextFiveHours.getValue());
             }
         });        
     }
@@ -115,16 +119,27 @@ public class WeatherPanel extends SunTimePanel {
      */
     private void addElements() {
         add(nextFiveHours, BorderLayout.WEST);
-        add(temperature, BorderLayout.CENTER);        
+        add(temperature, BorderLayout.CENTER);
+        add(image, BorderLayout.NORTH);
     }
     
     /**
-     * Updates the display five hour forecast information.
+     * Updates the displayed five hour forecast information.
      * 
      * @param hour - How many hours from now to display weather for
      */
     public void updateFiveHourInformation(int hour) {
         temperature.setText(weatherArrays.getNextFiveHours()[hour]);
+    }
+    
+    /**
+     * Updates the displayed weather image.
+     * 
+     * @param hour - How many hours from now to display the image for
+     */
+    public void updateWeatherImage(int hour) {
+        ((ImageIcon) image.getIcon()).setImage(weatherArrays.getWeatherImages()[hour].getImage());
+        repaint();
     }
     
     @Override
