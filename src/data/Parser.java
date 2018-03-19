@@ -14,8 +14,8 @@ import gui.ImagePanel;
  */
 public class Parser {
     private static final int SIZE_OF_TEMPERATURES = 6;
-    private AstronomyArrays astronomyArrays;
-    private WeatherArrays weatherArrays;
+    private AstronomyData astronomyData;
+    private WeatherData weatherData;
     
     /**
      * Constructs a Parser object.
@@ -23,7 +23,7 @@ public class Parser {
      * @param webAddress - The web address to parse scraped information from
      */
     public Parser(WebAddress webAddress) {
-        astronomyArrays = new AstronomyArrays();
+        astronomyData = new AstronomyData();
         Scraper webScraper = new Scraper(webAddress);
         webScraper.scrapeAstronomyAndWeather(this);
     }
@@ -37,11 +37,11 @@ public class Parser {
         Element table = document.getElementById("as-monthsun").child(1);
         Elements tableRows = table.getElementsByTag("tr");
 
-        astronomyArrays.insertData(tableRows);
+        astronomyData.insertData(tableRows);
     }
     
     /**
-     * Parses weather data and inserts it into the WeatherArrays.
+     * Parses weather data and inserts it into the WeatherData.
      * 
      * @param document - the HTML document to parse from
      */
@@ -60,25 +60,25 @@ public class Parser {
             imagePanels[index] = new ImagePanel(imageLocation);
         }
         
-        weatherArrays = new WeatherArrays(temperatures);
-        weatherArrays.insertWeatherImages(imagePanels);
+        weatherData = new WeatherData(temperatures);
+        weatherData.insertWeatherImages(imagePanels);
     }
     
     /**
      * Gets the astronomy arrays.
      * 
-     * @return - astronomyArrays as an AstronomyArrays
+     * @return - astronomyData as an AstronomyData
      */
-    public AstronomyArrays getAstronomyArrays() {
-        return astronomyArrays;
+    public AstronomyData getAstronomyArrays() {
+        return astronomyData;
     }
     
     /**
      * Gets the weather arrays.
      * 
-     * @return - weatherArrays as a WeatherArrays
+     * @return - weatherData as a WeatherData
      */
-    public WeatherArrays getWeatherArrays() {
-        return weatherArrays;
+    public WeatherData getWeatherArrays() {
+        return weatherData;
     }
 }

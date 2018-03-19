@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class SliderPanel extends JPanel {
     private static final int FIRST_DAY = 1;
     private static final int LAST_DAY = 365;

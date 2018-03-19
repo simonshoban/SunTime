@@ -12,6 +12,7 @@ import javax.swing.JPanel;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class SunTimePanel extends JPanel {
     private static final int RED_MORNING = 0;
     private static final int GREEN_MORNING = 36;

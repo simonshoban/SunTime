@@ -9,6 +9,7 @@ import javax.swing.JFrame;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class WindowFrame extends JFrame {
     private int windowWidth;
     private int windowHeight;

@@ -12,14 +12,14 @@ import java.util.List;
  * @author Simon Shoban
  * @version 1.0
  */
-public class AstronomyArrays {
+public class AstronomyData {
     private ArrayList<String> sunriseTimes;
     private ArrayList<String> sunsetTimes;
     
     /**
-     * Constructs an AstronomyArrays object.
+     * Constructs an AstronomyData object.
      */
-    public AstronomyArrays() {
+    public AstronomyData() {
         sunriseTimes = new ArrayList<String>();
         sunsetTimes = new ArrayList<String>();
     }

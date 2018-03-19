@@ -8,6 +8,13 @@ import java.util.Locale;
 
 import javax.swing.JLabel;
 
+/**
+ * Displays the day and month of the year.
+ * 
+ * @author Simon Shoban
+ * @version 1.0
+ */
+@SuppressWarnings("serial")
 public class TimePanel extends SunTimePanel {
     private static final int FONT_SIZE = 42;
     private JLabel time;

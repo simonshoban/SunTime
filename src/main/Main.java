@@ -2,9 +2,9 @@ package main;
 
 import gui.WindowFrame;
 import gui.MainContainer;
-import data.AstronomyArrays;
+import data.AstronomyData;
 import data.Parser;
-import data.WeatherArrays;
+import data.WeatherData;
 import data.WebAddress;
 
 /**
@@ -35,8 +35,8 @@ public final class Main {
         WebAddress webAddress = new WebAddress(domain, country, city);
         Parser webParser = new Parser(webAddress);
         
-        AstronomyArrays astronomyData = webParser.getAstronomyArrays();
-        WeatherArrays weatherData = webParser.getWeatherArrays();
+        AstronomyData astronomyData = webParser.getAstronomyArrays();
+        WeatherData weatherData = webParser.getWeatherArrays();
         
         MainContainer container = new MainContainer(astronomyData, weatherData);
         WindowFrame windowFrame = new WindowFrame(WINDOW_WIDTH, WINDOW_HEIGHT);

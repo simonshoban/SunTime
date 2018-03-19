@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import data.AstronomyArrays;
+import data.AstronomyData;
 
 /**
  * Displays astronomy information.
@@ -22,22 +22,22 @@ public class AstronomyPanel extends SunTimePanel {
             Font.PLAIN, 
             20);
     
-    private AstronomyArrays astronomyArrays;
+    private AstronomyData astronomyData;
     private JLabel sunTimes;
     
     /**
      * Constructs an AstronomyPanel.
      * 
-     * @param astronomyArrays - The astronomy information to be displayed
+     * @param astronomyData - The astronomy information to be displayed
      */
-    public AstronomyPanel(AstronomyArrays astronomyArrays) {
-        this.astronomyArrays = astronomyArrays;
+    public AstronomyPanel(AstronomyData astronomyData) {
+        this.astronomyData = astronomyData;
         int day = LocalDateTime.now().getDayOfYear();
 
         sunTimes = new JLabel("<html>Sun rises at "
-                + astronomyArrays.getSunriseTimes().get(day - 1)
+                + astronomyData.getSunriseTimes().get(day - 1)
                 +  "<br/>Sun sets at "
-                + astronomyArrays.getSunsetTimes().get(day - 1)
+                + astronomyData.getSunsetTimes().get(day - 1)
                 + "</html>");
     }
     
@@ -87,9 +87,9 @@ public class AstronomyPanel extends SunTimePanel {
      */
     public void updateAstronomyInfo(int day) {
         sunTimes.setText("<html>Sun rises at "
-                + astronomyArrays.getSunriseTimes().get(day - 1)
+                + astronomyData.getSunriseTimes().get(day - 1)
                 +  "<br/>Sun sets at "
-                + astronomyArrays.getSunsetTimes().get(day - 1)
+                + astronomyData.getSunsetTimes().get(day - 1)
                 + "</html>");
     }
 }

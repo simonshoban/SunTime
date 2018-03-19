@@ -8,16 +8,16 @@ import gui.ImagePanel;
  * @author Simon Shoban
  * @version 1.0
  */
-public class WeatherArrays {
+public class WeatherData {
     private String[] nextFiveHours;
     private ImagePanel[] weatherImages;
     
     /**
-     * Constructs a WeatherArrays object.
+     * Constructs a WeatherData object.
      * 
      * @param temperatures
      */
-    public WeatherArrays(String[] temperatures) {
+    public WeatherData(String[] temperatures) {
         nextFiveHours = temperatures;
     }
     

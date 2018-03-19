@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -11,7 +12,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import data.WeatherArrays;
+import data.WeatherData;
 
 /**
  * Displays weather information.
@@ -25,21 +26,24 @@ public class WeatherPanel extends SunTimePanel {
             Font.PLAIN, 
             60);
     
+    private static final int SLIDER_SIZE = 5;
     private JLabel temperature;
     private JSlider nextFiveHours;
-    private JLabel image;
-    private WeatherArrays weatherArrays;
+    private Image image;
+    private JLabel imageLabel;
+    private WeatherData weatherData;
     
     /**
      * Constructs a WeatherPanel object.
      * 
-     * @param weatherArrays - The weather information to be displayed
+     * @param weatherData - The weather information to be displayed
      */
-    public WeatherPanel(WeatherArrays weatherArrays) {
-        this.weatherArrays = weatherArrays;
-        temperature = new JLabel(weatherArrays.getNextFiveHours()[0]);
-        image = new JLabel(new ImageIcon(weatherArrays.getWeatherImages()[0].getImage()));
-        nextFiveHours = new JSlider(JSlider.VERTICAL, 0, 5, 0);
+    public WeatherPanel(WeatherData weatherData) {
+        this.weatherData = weatherData;
+        temperature = new JLabel(weatherData.getNextFiveHours()[0]);
+        image = weatherData.getWeatherImages()[0].getImage();
+        imageLabel = new JLabel(new ImageIcon(image));
+        nextFiveHours = new JSlider(JSlider.VERTICAL, 0, SLIDER_SIZE, 0);
     }
     
     /**
@@ -120,7 +124,7 @@ public class WeatherPanel extends SunTimePanel {
     private void addElements() {
         add(nextFiveHours, BorderLayout.WEST);
         add(temperature, BorderLayout.CENTER);
-        add(image, BorderLayout.NORTH);
+        add(imageLabel, BorderLayout.NORTH);
     }
     
     /**
@@ -129,7 +133,7 @@ public class WeatherPanel extends SunTimePanel {
      * @param hour - How many hours from now to display weather for
      */
     public void updateFiveHourInformation(int hour) {
-        temperature.setText(weatherArrays.getNextFiveHours()[hour]);
+        temperature.setText(weatherData.getNextFiveHours()[hour]);
     }
     
     /**
@@ -138,7 +142,8 @@ public class WeatherPanel extends SunTimePanel {
      * @param hour - How many hours from now to display the image for
      */
     public void updateWeatherImage(int hour) {
-        ((ImageIcon) image.getIcon()).setImage(weatherArrays.getWeatherImages()[hour].getImage());
+        image = weatherData.getWeatherImages()[hour].getImage();
+        ((ImageIcon) imageLabel.getIcon()).setImage(image);
         repaint();
     }
     

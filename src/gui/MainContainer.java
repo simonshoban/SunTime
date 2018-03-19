@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import data.WeatherArrays;
-import data.AstronomyArrays;
+import data.WeatherData;
+import data.AstronomyData;
 
 /**
  * The outermost JPanel container.
@@ -30,14 +30,14 @@ public class MainContainer extends JPanel {
     /**
      * Constructs a MainContainer object.
      * 
-     * @param astronomyArrays - The AstronomyArrays needed to construct the AstronomyPanel
-     * @param weatherArrays - The WeatherArrays needed to construct the WeatherPanel
+     * @param astronomyData - Used to construct the AstronomyPanel
+     * @param weatherData - Used to construct the WeatherPanel
      */
-    public MainContainer(AstronomyArrays astronomyArrays, WeatherArrays weatherArrays) {
+    public MainContainer(AstronomyData astronomyData, WeatherData weatherData) {
         setLayout(new BorderLayout());
         
-        sunPanel = new AstronomyPanel(astronomyArrays);
-        temperaturePanel = new WeatherPanel(weatherArrays);
+        sunPanel = new AstronomyPanel(astronomyData);
+        temperaturePanel = new WeatherPanel(weatherData);
         timePanel = new TimePanel();       
         sliderPanel = new SliderPanel(this);
         
