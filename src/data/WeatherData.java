@@ -10,12 +10,14 @@ import gui.ImagePanel;
  */
 public class WeatherData {
     private String[] nextFiveHours;
+    private String[] fiveHourTimes;
     private ImagePanel[] weatherImages;
     
     /**
      * Constructs a WeatherData object.
      * 
-     * @param temperatures
+     * @param temperatures - An array containing the next five hours of 
+     * temperatures
      */
     public WeatherData(String[] temperatures) {
         nextFiveHours = temperatures;
@@ -31,6 +33,20 @@ public class WeatherData {
         nextFiveHours = temperatures;
     }
     
+    /**
+     * Inserts the times for the next five hours.
+     * 
+     * @param times - An array of strings containing the next five hours
+     */
+    public void insertFiveHourTimes(String[] times) {
+        fiveHourTimes = times;
+    }
+    
+    /**
+     * Inserts an array of ImagePanels into the weather data.
+     * 
+     * @param images - An ImagePanel[] with weather images
+     */
     public void insertWeatherImages(ImagePanel[] images) {
         weatherImages = images;
     }
@@ -44,6 +60,15 @@ public class WeatherData {
         return nextFiveHours;
     }
     
+    public String[] getFiveHourTimes() {
+        return fiveHourTimes;
+    }
+    
+    /**
+     * Gets the next five hours of weather images.
+     * 
+     * @return weatherImages as an ImagePanel[]
+     */
     public ImagePanel[] getWeatherImages() {
         return weatherImages;
     }

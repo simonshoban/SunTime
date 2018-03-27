@@ -7,5 +7,13 @@ package toolkit;
  * @version 1.0
  */
 public class Toolkit {
-
+    /**
+     * Capitalizes the string.
+     * 
+     * @param string - The string to be capitalized
+     */
+    public static String capitalize(String string) {
+        return string = string.substring(0, 1).toUpperCase() 
+                + string.substring(1).toLowerCase();
+    }
 }

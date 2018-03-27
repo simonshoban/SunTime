@@ -23,7 +23,6 @@ public class Parser {
      * @param webAddress - The web address to parse scraped information from
      */
     public Parser(WebAddress webAddress) {
-        astronomyData = new AstronomyData();
         Scraper webScraper = new Scraper(webAddress);
         webScraper.scrapeAstronomyAndWeather(this);
     }
@@ -31,13 +30,16 @@ public class Parser {
     /**
      * Parses astronomy data and inserts it into the AstrnomyArrays.
      * 
-     * @param document - the HTML document to parse from
+     * @param documents - the HTML documents to parse from
      */
-    public void parseAstronomyData(Document document) {
-        Element table = document.getElementById("as-monthsun").child(1);
-        Elements tableRows = table.getElementsByTag("tr");
-
-        astronomyData.insertData(tableRows);
+    public void parseAstronomyData(Document[] documents) {
+        astronomyData = new AstronomyData();
+        
+        for (Document document : documents) {
+            Element table = document.getElementById("as-monthsun").child(1);
+            Elements tableRows = table.getElementsByTag("tr");
+            astronomyData.insertData(tableRows);
+        }
     }
     
     /**
@@ -48,13 +50,17 @@ public class Parser {
     public void parseWeatherData(Document document) {
         Element table = document.getElementById("wt-5hr").child(0);
         Element temperatureRow = table.getElementsByClass("soft").first();
+        Element timeRow = table.getElementsByClass("h2").first();
         Elements images = table.getElementsByTag("img");
         Elements temperature = temperatureRow.getElementsByTag("td");
+        Elements fiveHourTimes = timeRow.getElementsByTag("td");
         String[] temperatures = new String[SIZE_OF_TEMPERATURES];
+        String[] times = new String[SIZE_OF_TEMPERATURES];
         ImagePanel[] imagePanels = new ImagePanel[SIZE_OF_TEMPERATURES];
         
         for (int index = 0; index < SIZE_OF_TEMPERATURES; index++) {
             temperatures[index] = temperature.get(index).text();
+            times[index] = fiveHourTimes.get(index).text();
             String imageLocation = images.get(index).absUrl("src");
             System.out.println(images.get(index).absUrl("src"));
             imagePanels[index] = new ImagePanel(imageLocation);
@@ -62,6 +68,7 @@ public class Parser {
         
         weatherData = new WeatherData(temperatures);
         weatherData.insertWeatherImages(imagePanels);
+        weatherData.insertFiveHourTimes(times);
     }
     
     /**

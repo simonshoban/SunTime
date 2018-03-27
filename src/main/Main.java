@@ -17,8 +17,8 @@ public final class Main {
     private static final int WINDOW_WIDTH = 1920;
     private static final int WINDOW_HEIGHT = 1080;
     private static String domain = "https://www.timeanddate.com/";
-    private static String city = "vancouver";
-    private static String country = "canada";
+    private static String city = "ho-CHI mInH";
+    private static String country = "vIetNaM";
     
     /**
      * Prevents the creation of Main objects.
@@ -44,5 +44,8 @@ public final class Main {
         container.init();
         windowFrame.add(container);
         windowFrame.init();
+        windowFrame.setTitle("Weather - " 
+                + webAddress.getCapitalizedCity() + ", " 
+                + webAddress.getCapitalizedCountry());
     }
 }

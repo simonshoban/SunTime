@@ -2,11 +2,9 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.time.LocalDateTime;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import data.AstronomyData;
 
@@ -16,6 +14,7 @@ import data.AstronomyData;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class AstronomyPanel extends SunTimePanel {
     private static final Font TEXT_FONT = new Font(
             "Helvetica", 
@@ -55,7 +54,7 @@ public class AstronomyPanel extends SunTimePanel {
      * Sets the font of the labels.
      */
     private void setLabelFont() {
-        sunTimes.setFont(TEXT_FONT);
+        sunTimes.setFont(getTextFont());
     }
     
     /**
@@ -91,5 +90,9 @@ public class AstronomyPanel extends SunTimePanel {
                 +  "<br/>Sun sets at "
                 + astronomyData.getSunsetTimes().get(day - 1)
                 + "</html>");
+    }
+
+    public static Font getTextFont() {
+        return TEXT_FONT;
     }
 }

@@ -30,7 +30,6 @@ public class WindowFrame extends JFrame {
      * WindowFrame object.
      */
     public void init() {
-        setTitle("Weather");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(windowWidth, windowHeight));
         setVisible(true);

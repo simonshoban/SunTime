@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -13,6 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import data.WeatherData;
+import gui.AstronomyPanel;
 
 /**
  * Displays weather information.
@@ -20,6 +22,7 @@ import data.WeatherData;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class WeatherPanel extends SunTimePanel {
     private static final Font TEXT_FONT = new Font(
             "Helvetica", 
@@ -55,6 +58,7 @@ public class WeatherPanel extends SunTimePanel {
         setElementForeground();
         setLabelAlignment();
         setSliderTickers();
+        setSliderLabels();
         addSliderListener();
         setSliderSize();
         addElements();
@@ -107,6 +111,21 @@ public class WeatherPanel extends SunTimePanel {
      */
     private void setSliderTickers() {
         nextFiveHours.setMajorTickSpacing(1);
+    }
+    
+    private void setSliderLabels() {
+        Hashtable<Integer, JLabel> times = new Hashtable<Integer, JLabel>();
+        
+        for (int index = 0; index <= SLIDER_SIZE; index++) {
+            JLabel timeLabel = new JLabel(
+                    weatherData.getFiveHourTimes()[index]
+                            );
+            timeLabel.setForeground(Color.white);
+            timeLabel.setFont(AstronomyPanel.getTextFont());
+            times.put(index, timeLabel);
+        }
+        
+        nextFiveHours.setLabelTable(times);
         nextFiveHours.setPaintLabels(true);
     }
     

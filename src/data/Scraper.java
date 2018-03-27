@@ -15,6 +15,7 @@ import org.jsoup.nodes.Document;
 public class Scraper {
     private static final int JANUARY = 1;
     private static final int DECEMBER = 12;
+    private static final int NUM_OF_DOCS = 12;
     private String domain;
     private String domainExtension;
     private String astronomyDir;
@@ -52,31 +53,42 @@ public class Scraper {
      * @param webParser - The Parser that parses the astronomy and weather data
      */
     public void scrapeAstronomyAndWeather(Parser webParser) {
-        for (int month = JANUARY; month <= DECEMBER; month++) {
-            scrapeAstronomy(month, webParser);
-        }
-        
+        scrapeAstronomy(webParser);     
         scrapeWeather(webParser);
     }
     
     /**
-     * Scrapes astronomy HTML data for the requested month.
+     * Scrapes astronomy HTML data.
      * 
-     * @param month - The month to scrape astronomy data for
      * @param parser - The Parser that parses the astronomy data
      */
-    public void scrapeAstronomy(int month, Parser parser) {
-        try {
-            url = domain + astronomyDir + "?month=" + month;
-            doc = Jsoup.connect(url).get();
-            System.out.println(url);
-            parser.parseAstronomyData(doc);
-        } catch (HttpStatusException e) {
-            System.out.println("Invalid URL: " + url);
-            System.exit(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
+    public void scrapeAstronomy(Parser parser) {
+        Document[] astroDocs = gatherAstronomyDocuments();
+        parser.parseAstronomyData(astroDocs);
+    }
+    
+    /**
+     * Gathers a list of astronomy documents into an array of Documents.
+     * 
+     * @return astroDocs - An array of Documents
+     */
+    private Document[] gatherAstronomyDocuments() {
+        Document[] astroDocs = new Document[NUM_OF_DOCS];
+        for (int month = JANUARY; month <= DECEMBER; month++) {
+            try {
+                url = domain + astronomyDir + "?month=" + month;
+                doc = Jsoup.connect(url).get();
+                System.out.println(url);
+                astroDocs[month - 1] = doc;
+            } catch (HttpStatusException e) {
+                System.out.println("Invalid URL: " + url);
+                System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }     
+        }
+        
+        return astroDocs;
     }
     
     /**
