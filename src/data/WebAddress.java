@@ -22,11 +22,11 @@ public class WebAddress {
      * @param country - Country
      * @param city - City
      */
-    public WebAddress(String domain, String country, String city) {
+    public WebAddress(String domain, String city, String country) {
         capitalizedVersions = new String[2];
         this.domain = domain;
-        this.country = formatString(country, 0);
-        this.city = formatString(city, 1);
+        this.city = formatString(city, 0);
+        this.country = formatString(country, 1);
     }
     
     private String formatString(String string, int version) {
@@ -86,11 +86,11 @@ public class WebAddress {
         return city;
     }
     
-    public String getCapitalizedCountry() {
+    public String getCapitalizedCity() {
         return capitalizedVersions[0];
     }
     
-    public String getCapitalizedCity() {
+    public String getCapitalizedCountry() {
         return capitalizedVersions[1];
     }
 }

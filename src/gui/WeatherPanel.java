@@ -62,6 +62,8 @@ public class WeatherPanel extends SunTimePanel {
         addSliderListener();
         setSliderSize();
         addElements();
+        repaint();
+        revalidate();
     }
     
     /**

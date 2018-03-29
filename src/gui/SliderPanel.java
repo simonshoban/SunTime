@@ -40,7 +40,7 @@ public class SliderPanel extends JPanel {
         
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent ce) {
-                mainContainer.updateDisplayedInformation(slider.getValue());
+                mainContainer.updateDailyInformation(slider.getValue());
             }
         });
         

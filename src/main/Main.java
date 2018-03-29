@@ -1,6 +1,7 @@
 package main;
 
 import gui.WindowFrame;
+import toolkit.Toolkit;
 import gui.MainContainer;
 import data.AstronomyData;
 import data.Parser;
@@ -16,9 +17,8 @@ import data.WebAddress;
 public final class Main {
     private static final int WINDOW_WIDTH = 1920;
     private static final int WINDOW_HEIGHT = 1080;
-    private static String domain = "https://www.timeanddate.com/";
-    private static String city = "ho-CHI mInH";
-    private static String country = "vIetNaM";
+    private static String city = "vancouver";
+    private static String country = "canada";
     
     /**
      * Prevents the creation of Main objects.
@@ -32,20 +32,27 @@ public final class Main {
      * @param args - unused
      */
     public static void main(String[] args) {
-        WebAddress webAddress = new WebAddress(domain, country, city);
+        WebAddress webAddress = new WebAddress(Toolkit.DOMAIN, city, country);
         Parser webParser = new Parser(webAddress);
         
         AstronomyData astronomyData = webParser.getAstronomyArrays();
         WeatherData weatherData = webParser.getWeatherArrays();
         
-        MainContainer container = new MainContainer(astronomyData, weatherData);
-        WindowFrame windowFrame = new WindowFrame(WINDOW_WIDTH, WINDOW_HEIGHT);
+        WindowFrame windowFrame = new WindowFrame(
+                WINDOW_WIDTH, 
+                WINDOW_HEIGHT, 
+                webAddress
+                );
+        
+        MainContainer container = new MainContainer(
+                astronomyData, 
+                weatherData, 
+                windowFrame,
+                webParser
+                );
         
         container.init();
         windowFrame.add(container);
         windowFrame.init();
-        windowFrame.setTitle("Weather - " 
-                + webAddress.getCapitalizedCity() + ", " 
-                + webAddress.getCapitalizedCountry());
     }
 }

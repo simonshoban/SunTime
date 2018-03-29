@@ -7,6 +7,8 @@ package toolkit;
  * @version 1.0
  */
 public class Toolkit {
+    public static String DOMAIN = "https://www.timeanddate.com/";
+    
     /**
      * Capitalizes the string.
      * 

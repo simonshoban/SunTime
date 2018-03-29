@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import data.WeatherData;
+import data.WebAddress;
 import data.AstronomyData;
+import data.Parser;
 
 /**
  * The outermost JPanel container.
@@ -20,11 +22,14 @@ import data.AstronomyData;
 @SuppressWarnings("serial")
 public class MainContainer extends JPanel {
     private static final int TIMER_DELAY = 1000;
+    private WindowFrame frame;
+    private Parser parser;
     private ArrayList<SunTimePanel> sunTimePanels;
     private WeatherPanel temperaturePanel;
     private AstronomyPanel sunPanel;
     private TimePanel timePanel;
     private SliderPanel sliderPanel;
+    private LocationPanel locationPanel;
     private Timer timer;
     
     /**
@@ -33,13 +38,17 @@ public class MainContainer extends JPanel {
      * @param astronomyData - Used to construct the AstronomyPanel
      * @param weatherData - Used to construct the WeatherPanel
      */
-    public MainContainer(AstronomyData astronomyData, WeatherData weatherData) {
+    public MainContainer(AstronomyData astronomyData, WeatherData weatherData, WindowFrame frame, Parser parser) {
+        this.frame = frame;
+        this.parser = parser;
+        
         setLayout(new BorderLayout());
         
         sunPanel = new AstronomyPanel(astronomyData);
         temperaturePanel = new WeatherPanel(weatherData);
         timePanel = new TimePanel();       
         sliderPanel = new SliderPanel(this);
+        locationPanel = new LocationPanel(this);
         
         timer = new Timer(TIMER_DELAY, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -52,6 +61,7 @@ public class MainContainer extends JPanel {
         sunTimePanels.add(sunPanel);
         sunTimePanels.add(temperaturePanel);
         sunTimePanels.add(timePanel);
+        sunTimePanels.add(locationPanel);
     }
     
     /**
@@ -66,16 +76,33 @@ public class MainContainer extends JPanel {
         add(sliderPanel, BorderLayout.SOUTH);
         add(timePanel, BorderLayout.NORTH);
         add(temperaturePanel, BorderLayout.CENTER);
+        add(locationPanel, BorderLayout.EAST);
     }
     
     /**
-     * Updates all the information displayed in the panels.
+     * Updates the daily information displayed in the panels.
      * 
      * @param dayOfYear - The day of the year to display information for
      */
-    public void updateDisplayedInformation(int dayOfYear) {
+    public void updateDailyInformation(int dayOfYear) {
         sunPanel.updateAstronomyInfo(dayOfYear);
         timePanel.updateTime(dayOfYear);
+    }
+    
+    public void changeLocation(WebAddress newLocation) {
+        parser.updateParser(newLocation);
+        sunPanel = new AstronomyPanel(parser.getAstronomyArrays());
+        temperaturePanel = new WeatherPanel(parser.getWeatherArrays());
+        
+        sunPanel.init();
+        sunPanel.revalidate();
+        sunPanel.repaint();
+        temperaturePanel.init();
+        
+        add(sunPanel, BorderLayout.WEST);
+        add(temperaturePanel, BorderLayout.CENTER);
+        
+        frame.updateTitle(newLocation);
     }
     
     /**

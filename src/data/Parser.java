@@ -16,6 +16,7 @@ public class Parser {
     private static final int SIZE_OF_TEMPERATURES = 6;
     private AstronomyData astronomyData;
     private WeatherData weatherData;
+    private Scraper webScraper;
     
     /**
      * Constructs a Parser object.
@@ -23,7 +24,12 @@ public class Parser {
      * @param webAddress - The web address to parse scraped information from
      */
     public Parser(WebAddress webAddress) {
-        Scraper webScraper = new Scraper(webAddress);
+        this.webScraper = new Scraper(webAddress);
+        webScraper.scrapeAstronomyAndWeather(this);
+    }
+    
+    public void updateParser(WebAddress newWebAddress) {
+        webScraper.changeCity(newWebAddress);
         webScraper.scrapeAstronomyAndWeather(this);
     }
     
@@ -49,26 +55,46 @@ public class Parser {
      */
     public void parseWeatherData(Document document) {
         Element table = document.getElementById("wt-5hr").child(0);
+        parseTemperatureData(table);
+        parseTimeData(table);
+        parseImageData(table);
+    }
+    
+    private void parseTemperatureData(Element table) {
         Element temperatureRow = table.getElementsByClass("soft").first();
-        Element timeRow = table.getElementsByClass("h2").first();
-        Elements images = table.getElementsByTag("img");
         Elements temperature = temperatureRow.getElementsByTag("td");
-        Elements fiveHourTimes = timeRow.getElementsByTag("td");
         String[] temperatures = new String[SIZE_OF_TEMPERATURES];
-        String[] times = new String[SIZE_OF_TEMPERATURES];
-        ImagePanel[] imagePanels = new ImagePanel[SIZE_OF_TEMPERATURES];
         
         for (int index = 0; index < SIZE_OF_TEMPERATURES; index++) {
             temperatures[index] = temperature.get(index).text();
+        }
+        
+        weatherData = new WeatherData(temperatures);
+    }
+    
+    private void parseTimeData(Element table) {
+        Element timeRow = table.getElementsByClass("h2").first();
+        Elements fiveHourTimes = timeRow.getElementsByTag("td");
+        String[] times = new String[SIZE_OF_TEMPERATURES];
+        
+        for (int index = 0; index < SIZE_OF_TEMPERATURES; index++) {
             times[index] = fiveHourTimes.get(index).text();
+        }
+        
+        weatherData.insertFiveHourTimes(times);
+    }
+    
+    private void parseImageData(Element table) {
+        Elements images = table.getElementsByTag("img");
+        ImagePanel[] imagePanels = new ImagePanel[SIZE_OF_TEMPERATURES];
+        
+        for (int index = 0; index < SIZE_OF_TEMPERATURES; index++) {
             String imageLocation = images.get(index).absUrl("src");
             System.out.println(images.get(index).absUrl("src"));
             imagePanels[index] = new ImagePanel(imageLocation);
         }
-        
-        weatherData = new WeatherData(temperatures);
+
         weatherData.insertWeatherImages(imagePanels);
-        weatherData.insertFiveHourTimes(times);
     }
     
     /**

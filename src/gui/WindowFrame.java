@@ -3,6 +3,8 @@ package gui;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
+import data.WebAddress;
+
 /**
  * The application's window frame.
  * 
@@ -13,16 +15,19 @@ import javax.swing.JFrame;
 public class WindowFrame extends JFrame {
     private int windowWidth;
     private int windowHeight;
+    private WebAddress webAddress;
     
     /**
      * Constructs an WindowFrame object.
      * 
-     * @param windowWidth - The width of the WindowFrame
-     * @param windowHeight - The height of the WindowFrame
+     * @param width - The width of the WindowFrame
+     * @param height - The height of the WindowFrame
+     * @param webAddress - The WebAddress object containing data for the title
      */
-    public WindowFrame(int windowWidth, int windowHeight) {
-        this.windowWidth = windowWidth;
-        this.windowHeight = windowHeight;
+    public WindowFrame(int width, int height, WebAddress webAddress) {
+        this.windowWidth = width;
+        this.windowHeight = height;
+        this.webAddress = webAddress;
     }
     
     /**
@@ -32,6 +37,16 @@ public class WindowFrame extends JFrame {
     public void init() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(windowWidth, windowHeight));
+        setTitle("Weather - " 
+                + webAddress.getCapitalizedCity() + ", " 
+                + webAddress.getCapitalizedCountry());
         setVisible(true);
+    }
+    
+    public void updateTitle(WebAddress newWebAddress) {
+        webAddress = newWebAddress;
+        setTitle("Weather - " 
+                + webAddress.getCapitalizedCity() + ", " 
+                + webAddress.getCapitalizedCountry());
     }
 }
