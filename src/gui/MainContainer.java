@@ -59,10 +59,14 @@ public class MainContainer extends JPanel {
         
         sunTimePanels = new ArrayList<SunTimePanel>();
         
+        fillSunTimePanels();
+    }
+    
+    private void fillSunTimePanels() {
         sunTimePanels.add(sunPanel);
         sunTimePanels.add(temperaturePanel);
         sunTimePanels.add(timePanel);
-        sunTimePanels.add(locationPanel);
+        sunTimePanels.add(locationPanel);   
     }
     
     /**

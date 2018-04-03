@@ -62,6 +62,8 @@ public class Scraper {
         } catch (InvalidURLException i) {
             i.printErrorMessage();
         }
+        
+        System.out.println();
     }
     
     /**
