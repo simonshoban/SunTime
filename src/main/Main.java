@@ -54,5 +54,7 @@ public final class Main {
         container.init();
         windowFrame.add(container);
         windowFrame.init();
+        
+        System.out.println();
     }
 }

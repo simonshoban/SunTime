@@ -22,6 +22,7 @@ public class SliderPanel extends JPanel {
     private static final int SLIDER_HEIGHT = 80;
     private static final int MAJOR_TICK_SPACING = 30;
     private static final int MINOR_TICK_SPACING = 7;
+    private JSlider slider;
 
     /**
      * Constructs a SliderPanel object.
@@ -29,7 +30,7 @@ public class SliderPanel extends JPanel {
      * @param mainContainer - The MainContainer that this SliderPanel belongs to
      */
     public SliderPanel(MainContainer mainContainer) {
-        JSlider slider = new JSlider(
+        slider = new JSlider(
                 FIRST_DAY, LAST_DAY, LocalDateTime.now().getDayOfYear()
                 );
         slider.setPreferredSize(new Dimension(SLIDER_WIDTH, SLIDER_HEIGHT));
@@ -45,5 +46,9 @@ public class SliderPanel extends JPanel {
         });
         
         add(slider);
+    }
+    
+    public int getDay() {
+        return slider.getValue();
     }
 }

@@ -18,8 +18,8 @@ public class LocationPanel extends SunTimePanel {
     private JButton submit;
     
     public LocationPanel(MainContainer container) {
-        city = new JTextField("City");
-        country = new JTextField("Country");
+        city = new JTextField("Lima");
+        country = new JTextField("Peru");
         submit = new JButton("Submit");
         submit.addMouseListener(new MouseListener() {
 

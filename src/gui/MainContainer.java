@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -71,12 +72,16 @@ public class MainContainer extends JPanel {
         sunPanel.init();
         temperaturePanel.init();
         timer.start();
-        
+        addElements();
+
+    }
+    
+    private void addElements() {
         add(sunPanel, BorderLayout.WEST);
         add(sliderPanel, BorderLayout.SOUTH);
         add(timePanel, BorderLayout.NORTH);
         add(temperaturePanel, BorderLayout.CENTER);
-        add(locationPanel, BorderLayout.EAST);
+        add(locationPanel, BorderLayout.EAST);       
     }
     
     /**
@@ -91,16 +96,10 @@ public class MainContainer extends JPanel {
     
     public void changeLocation(WebAddress newLocation) {
         parser.updateParser(newLocation);
-        sunPanel = new AstronomyPanel(parser.getAstronomyArrays());
-        temperaturePanel = new WeatherPanel(parser.getWeatherArrays());
+        sunPanel.updateAstronomyData(parser.getAstronomyArrays());
+        temperaturePanel.updateWeatherData(parser.getWeatherArrays());
         
-        sunPanel.init();
-        sunPanel.revalidate();
-        sunPanel.repaint();
-        temperaturePanel.init();
-        
-        add(sunPanel, BorderLayout.WEST);
-        add(temperaturePanel, BorderLayout.CENTER);
+        updateDailyInformation(sliderPanel.getDay());
         
         frame.updateTitle(newLocation);
     }

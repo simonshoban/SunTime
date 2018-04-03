@@ -62,8 +62,18 @@ public class WeatherPanel extends SunTimePanel {
         addSliderListener();
         setSliderSize();
         addElements();
-        repaint();
-        revalidate();
+    }
+    
+    public void updateWeatherData(WeatherData newData) {
+        weatherData = newData;
+        
+        init();
+        refreshHourlyInformation();
+    }
+    
+    private void refreshHourlyInformation() {
+        updateFiveHourInformation(nextFiveHours.getValue());
+        updateWeatherImage(nextFiveHours.getValue());       
     }
     
     /**

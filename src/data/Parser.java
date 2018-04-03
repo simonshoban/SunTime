@@ -34,7 +34,7 @@ public class Parser {
     }
     
     /**
-     * Parses astronomy data and inserts it into the AstrnomyArrays.
+     * Parses astronomy data and inserts it into the AstronomyData.
      * 
      * @param documents - the HTML documents to parse from
      */

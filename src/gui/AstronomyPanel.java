@@ -40,6 +40,11 @@ public class AstronomyPanel extends SunTimePanel {
                 + "</html>");
     }
     
+    public void updateAstronomyData(AstronomyData newData) {
+        astronomyData = newData;
+        init();
+    }
+    
     /**
      * Sets up the JLabels in this AstronomyPanel.
      */
@@ -90,6 +95,7 @@ public class AstronomyPanel extends SunTimePanel {
                 +  "<br/>Sun sets at "
                 + astronomyData.getSunsetTimes().get(day - 1)
                 + "</html>");
+        //System.out.println("stimes: " + astronomyData.getSunriseTimes().get(day-1));
     }
 
     public static Font getTextFont() {

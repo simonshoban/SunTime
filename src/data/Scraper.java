@@ -60,7 +60,7 @@ public class Scraper {
             scrapeAstronomy(webParser);     
             scrapeWeather(webParser);   
         } catch (InvalidURLException i) {
-            System.exit(0);
+            //System.exit(0);
         }
     }
     
