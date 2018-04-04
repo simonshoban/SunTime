@@ -114,4 +114,8 @@ public class Parser {
     public WeatherData getWeatherArrays() {
         return weatherData;
     }
+    
+    public Scraper getScraper() {
+        return webScraper;
+    }
 }

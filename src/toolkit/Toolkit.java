@@ -13,9 +13,22 @@ public class Toolkit {
      * Capitalizes the string.
      * 
      * @param string - The string to be capitalized
+     * @return a capitalized version of the given string
      */
     public static String capitalize(String string) {
-        return string = string.substring(0, 1).toUpperCase() 
+        return string.substring(0, 1).toUpperCase() 
                 + string.substring(1).toLowerCase();
+    }
+    
+    public static void setTimeout(Runnable runnable, long delay){
+        new Thread(() -> {
+            try {
+                Thread.sleep(delay);
+                runnable.run();
+            }
+            catch (Exception e){
+                System.err.println(e);
+            }
+        }).start();
     }
 }

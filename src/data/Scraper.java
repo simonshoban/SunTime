@@ -118,4 +118,8 @@ public class Scraper {
         System.out.println(url);
         parser.parseWeatherData(doc);
     }
+    
+    public WebAddress getWebAddress() {
+        return webAddress;
+    }
 }

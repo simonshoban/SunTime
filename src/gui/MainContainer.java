@@ -3,14 +3,16 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import data.WeatherData;
 import data.WebAddress;
+import toolkit.Toolkit;
 import data.AstronomyData;
 import data.Parser;
 
@@ -22,7 +24,8 @@ import data.Parser;
  */
 @SuppressWarnings("serial")
 public class MainContainer extends JPanel {
-    private static final int TIMER_DELAY = 1000;
+    private static final int COLOURS_TIMER_DELAY = 1000;
+    private static final int SCRAPER_TIMER_DELAY = 3600000;
     private WindowFrame frame;
     private Parser parser;
     private ArrayList<SunTimePanel> sunTimePanels;
@@ -31,7 +34,8 @@ public class MainContainer extends JPanel {
     private TimePanel timePanel;
     private SliderPanel sliderPanel;
     private LocationPanel locationPanel;
-    private Timer timer;
+    private Timer coloursTimer;
+    private Timer scraperTimer;
     
     /**
      * Constructs a MainContainer object.
@@ -51,11 +55,13 @@ public class MainContainer extends JPanel {
         sliderPanel = new SliderPanel(this);
         locationPanel = new LocationPanel(this);
         
-        timer = new Timer(TIMER_DELAY, new ActionListener() {
+        coloursTimer = new Timer(COLOURS_TIMER_DELAY, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 updateColours();
             }
         });
+        
+        synchronizeHourlyScraping();
         
         sunTimePanels = new ArrayList<SunTimePanel>();
         
@@ -75,7 +81,7 @@ public class MainContainer extends JPanel {
     public void init() {
         sunPanel.init();
         temperaturePanel.init();
-        timer.start();
+        coloursTimer.start();
         addElements();
 
     }
@@ -98,7 +104,7 @@ public class MainContainer extends JPanel {
         timePanel.updateTime(dayOfYear);
     }
     
-    public void changeLocation(WebAddress newLocation) {
+    public void scrapeNewInfo(WebAddress newLocation) {
         parser.updateParser(newLocation);
         sunPanel.updateAstronomyData(parser.getAstronomyArrays());
         temperaturePanel.updateWeatherData(parser.getWeatherArrays());
@@ -118,4 +124,38 @@ public class MainContainer extends JPanel {
             repaint();
         }
     }
+    
+    private void synchronizeHourlyScraping() {
+        LocalTime now = LocalTime.now();
+        if (now.getMinute() == 0 && now.getSecond() == 0) {
+
+            scrapeHourly();
+        } else {
+            LocalTime nextHour = LocalTime.now();
+            
+            nextHour = nextHour.plusHours(1);
+            nextHour = nextHour.withMinute(0);
+            nextHour = nextHour.withSecond(0);
+            
+            long difference = LocalTime.now().until(nextHour, ChronoUnit.SECONDS) * 1000;
+            
+            System.out.println("difference: " + difference);
+            
+            Toolkit.setTimeout(() -> scrapeHourly(), difference);
+        }
+    }
+    
+    private void scrapeHourly() {
+        scrapeNewInfo(parser.getScraper().getWebAddress());
+        
+        scraperTimer = new Timer(SCRAPER_TIMER_DELAY, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                scrapeNewInfo(parser.getScraper().getWebAddress());
+            }
+        });
+        
+        scraperTimer.start();
+    }
+    
+   
 }

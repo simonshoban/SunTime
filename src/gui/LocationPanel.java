@@ -25,12 +25,13 @@ public class LocationPanel extends SunTimePanel {
 
             @Override
             public void mouseClicked(MouseEvent arg0) {
-                container.changeLocation(new WebAddress(
-                            Toolkit.DOMAIN, 
-                            city.getText(),
-                            country.getText()
-                        )
+                WebAddress newLocation = new WebAddress(
+                        Toolkit.DOMAIN, 
+                        city.getText(),
+                        country.getText()
                     );
+                
+                container.scrapeNewInfo(newLocation);
             }
 
             @Override
