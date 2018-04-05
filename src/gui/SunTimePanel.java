@@ -14,20 +14,24 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class SunTimePanel extends JPanel {
-    private static final int RED_MORNING = 0;
-    private static final int GREEN_MORNING = 36;
-    private static final int BLUE_MORNING = 72;
-    
-    private static final int RED_EVENING = 96;
-    private static final int GREEN_EVENING = 180;
-    private static final int BLUE_EVENING = 255;
-    
     private static final int RED_MULTIPLIER = 8;
     private static final int GREEN_MULTIPLIER = 12;
     private static final int BLUE_MULTIPLIER = 15;
     
     private static final int SECONDS_IN_HOUR = 3600;
     private static final int SECONDS_IN_HALF_DAY = 43200;
+    
+    private static final int[] RED_TIMES = {0, 96};
+    private static final int[] GREEN_TIMES = {36, 180};
+    private static final int[] BLUE_TIMES = {72, 255};
+    private static final int[] MULTIPLIER_TIMES = {1, -1};
+    
+    private double red;
+    private double green;
+    private double blue;
+    private double seconds;
+    private int timeOfDay;
+    private int multiplier;
     
     private Color backgroundColour;
     
@@ -43,27 +47,58 @@ public class SunTimePanel extends JPanel {
      * Updates the background colour depending on the time of day.
      */
     public void updateColours() {
-        float seconds = LocalDateTime.now().toLocalTime().toSecondOfDay();
-        float red = RED_MORNING;
-        float green = GREEN_MORNING;
-        float blue = BLUE_MORNING;
-        int multiplier = 1;
+        resetValues(); 
         
-        if (seconds >= SECONDS_IN_HALF_DAY) {
-            multiplier = -1;
-            red = RED_EVENING;
-            green = GREEN_EVENING;
-            blue = BLUE_EVENING;
-            seconds -= SECONDS_IN_HALF_DAY;
-        }
-        
-        red += multiplier * seconds / SECONDS_IN_HOUR * RED_MULTIPLIER;
-        green += multiplier * seconds / SECONDS_IN_HOUR * GREEN_MULTIPLIER;
-        blue += multiplier * seconds / SECONDS_IN_HOUR * BLUE_MULTIPLIER;
+        red = calculateColour(red, RED_MULTIPLIER);
+        green = calculateColour(green, GREEN_MULTIPLIER);
+        blue = calculateColour(blue, BLUE_MULTIPLIER);
         
         backgroundColour = new Color((int) red, (int) green, (int) blue);
         
         setBackground(backgroundColour);
+    }
+    
+    /**
+     * Resets the values of the colour algorithm.
+     */
+    private void resetValues() {
+        timeOfDay = (isAfternoon()) ? 1 : 0;
+        multiplier = MULTIPLIER_TIMES[timeOfDay];
+        red = RED_TIMES[timeOfDay];
+        green = GREEN_TIMES[timeOfDay];
+        blue = BLUE_TIMES[timeOfDay];
+        
+        calculateSeconds();
+    }
+    
+    /**
+     * Calculates the seconds needed for the algorithm.
+     */
+    private void calculateSeconds() {
+        double radius = SECONDS_IN_HALF_DAY;
+        double x = LocalDateTime.now().toLocalTime().toSecondOfDay() - SECONDS_IN_HALF_DAY;
+        
+        seconds = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2));
+    }
+    
+    /**
+     * Tells you if it's afternoon or not.
+     * 
+     * @return true if it's past 12, false otherwise
+     */
+    private boolean isAfternoon() {
+        return seconds > SECONDS_IN_HALF_DAY;
+    }
+    
+    /**
+     * Calculates the colour values for the background display.
+     * 
+     * @param colour - The colour value to calculate
+     * @param colourMultiplier - The corresponding multiplier for the colour
+     * @return the correct colour value
+     */
+    private double calculateColour(double colour, int colourMultiplier) {
+        return colour + multiplier * seconds / SECONDS_IN_HOUR * colourMultiplier;
     }
     
     /**
