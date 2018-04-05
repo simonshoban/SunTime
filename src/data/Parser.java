@@ -1,5 +1,13 @@
 package data;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
+import org.apache.commons.io.FileUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -104,15 +112,23 @@ public class Parser {
      */
     private void parseImageData(Element table) {
         Elements images = table.getElementsByTag("img");
-        String[] imageLocations = new String[SIZE_OF_TEMPERATURES];
+        BufferedImage[] weatherImages = new BufferedImage[SIZE_OF_TEMPERATURES];
         
         for (int index = 0; index < SIZE_OF_TEMPERATURES; index++) {
             String imageLocation = images.get(index).absUrl("src");
             System.out.println(images.get(index).absUrl("src"));
-            imageLocations[index] = imageLocation;
+            try {
+                URL url = new URL(imageLocation);
+                File file = new File("not_null");
+                
+                FileUtils.copyURLToFile(url, file);
+                weatherImages[index] = ImageIO.read(file);
+            } catch (IOException i) {
+                i.printStackTrace();
+            }  
         }
 
-        weatherData.insertWeatherImages(imageLocations);
+        weatherData.insertWeatherImages(weatherImages);
     }
     
     /**

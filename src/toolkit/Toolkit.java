@@ -52,4 +52,14 @@ public class Toolkit {
     public static long convertSecondsToMilliseconds(long seconds) {
         return seconds * MILLISECONDS_IN_SECONDS;
     }
+    
+    /**
+     * Formats a given string into the correct UTF time zone code.
+     * 
+     * @param unformattedData - The unformatted time zone code
+     * @return a UTF time zone code
+     */
+    public static String formatTimeZoneCode(String unformattedData) {
+        throw new UnsupportedOperationException();
+    }
 }

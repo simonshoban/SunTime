@@ -1,13 +1,6 @@
 package data;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.FileUtils;
 
 /**
  * Holds weather data from timeanddate.com.
@@ -29,7 +22,7 @@ public class WeatherData {
     public WeatherData(String[] temperatures) {
         nextFiveHours = temperatures;
     }
-    
+
     /**
      * Insert temperature data for the next five hours into the weather array.
      * 
@@ -52,21 +45,10 @@ public class WeatherData {
     /**
      * Inserts an array of ImagePanels into the weather data.
      * 
-     * @param fileLocations - An String[] containing all the file locations of the weather images 
+     * @param images - A BufferedImage[] containing all the weather images 
      */
-    public void insertWeatherImages(String[] fileLocations) {
-        
-        for (int index = 0; index < fileLocations.length; index++) {
-            try {
-                URL url = new URL(fileLocations[index]);
-                File file = new File("not_null");
-                
-                FileUtils.copyURLToFile(url, file);
-                weatherImages[index] = ImageIO.read(file);
-            } catch (IOException i) {
-                i.printStackTrace();
-            }           
-        }
+    public void insertWeatherImages(BufferedImage[] images) {
+        weatherImages = images;
     }
     
     /**
