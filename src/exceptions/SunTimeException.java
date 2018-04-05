@@ -6,6 +6,7 @@ package exceptions;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public abstract class SunTimeException extends Exception {
     /**
      * Helper function that prints messages to stderr.
@@ -16,5 +17,8 @@ public abstract class SunTimeException extends Exception {
         System.err.println(message);
     }
     
+    /**
+     * Prints error message.
+     */
     public abstract void printErrorMessage();
 }

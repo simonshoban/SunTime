@@ -71,6 +71,7 @@ public class Scraper {
      * Scrapes astronomy HTML data.
      * 
      * @param parser - The Parser that parses the astronomy data
+     * @throws InvalidURLException if invalid URL is used
      */
     public void scrapeAstronomy(Parser parser) throws InvalidURLException {
         Document[] astroDocs = gatherAstronomyDocuments();
@@ -81,6 +82,7 @@ public class Scraper {
      * Gathers a list of astronomy documents into an array of Documents.
      * 
      * @return astroDocs - An array of Documents
+     * @throws InvalidURLException if invalid URL is used
      */
     private Document[] gatherAstronomyDocuments() throws InvalidURLException {
         Document[] astroDocs = new Document[NUM_OF_DOCS];
@@ -106,6 +108,7 @@ public class Scraper {
      * Scrapes weather HTML data.
      * 
      * @param parser - The Parser that parses the weather data
+     * @throws InvalidURLException if invalid URL is used
      */
     public void scrapeWeather(Parser parser) throws InvalidURLException {
         try {

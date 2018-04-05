@@ -43,8 +43,13 @@ public class WindowFrame extends JFrame {
         setVisible(true);
     }
     
-    public void updateTitle(WebAddress newWebAddress) {
-        webAddress = newWebAddress;
+    /**
+     * Updates the JFrame title based on the new location.
+     * 
+     * @param newLocation - The new location
+     */
+    public void updateTitle(WebAddress newLocation) {
+        webAddress = newLocation;
         setTitle("Weather - " 
                 + webAddress.getCapitalizedCity() + ", " 
                 + webAddress.getCapitalizedCountry());

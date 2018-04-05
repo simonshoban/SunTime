@@ -4,8 +4,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import gui.ImagePanel;
-
 /**
  * Parses HTML data into something more useful.
  * 
@@ -106,15 +104,15 @@ public class Parser {
      */
     private void parseImageData(Element table) {
         Elements images = table.getElementsByTag("img");
-        ImagePanel[] imagePanels = new ImagePanel[SIZE_OF_TEMPERATURES];
+        String[] imageLocations = new String[SIZE_OF_TEMPERATURES];
         
         for (int index = 0; index < SIZE_OF_TEMPERATURES; index++) {
             String imageLocation = images.get(index).absUrl("src");
             System.out.println(images.get(index).absUrl("src"));
-            imagePanels[index] = new ImagePanel(imageLocation);
+            imageLocations[index] = imageLocation;
         }
 
-        weatherData.insertWeatherImages(imagePanels);
+        weatherData.insertWeatherImages(imageLocations);
     }
     
     /**

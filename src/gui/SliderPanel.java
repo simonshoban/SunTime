@@ -48,6 +48,11 @@ public class SliderPanel extends JPanel {
         add(slider);
     }
     
+    /**
+     * Gets the current day selected on the slider.
+     * 
+     * @return an int between 1 and 365
+     */
     public int getDay() {
         return slider.getValue();
     }

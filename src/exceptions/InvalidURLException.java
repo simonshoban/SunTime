@@ -9,6 +9,7 @@ import data.WebAddress;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class InvalidURLException extends SunTimeException {
     private WebAddress webAddress;
     private String extension;

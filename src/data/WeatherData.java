@@ -1,6 +1,13 @@
 package data;
 
-import gui.ImagePanel;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
+import org.apache.commons.io.FileUtils;
 
 /**
  * Holds weather data from timeanddate.com.
@@ -11,7 +18,7 @@ import gui.ImagePanel;
 public class WeatherData {
     private String[] nextFiveHours;
     private String[] fiveHourTimes;
-    private ImagePanel[] weatherImages;
+    private BufferedImage[] weatherImages;
     
     /**
      * Constructs a WeatherData object.
@@ -45,10 +52,21 @@ public class WeatherData {
     /**
      * Inserts an array of ImagePanels into the weather data.
      * 
-     * @param images - An ImagePanel[] with weather images
+     * @param fileLocations - An String[] containing all the file locations of the weather images 
      */
-    public void insertWeatherImages(ImagePanel[] images) {
-        weatherImages = images;
+    public void insertWeatherImages(String[] fileLocations) {
+        
+        for (int index = 0; index < fileLocations.length; index++) {
+            try {
+                URL url = new URL(fileLocations[index]);
+                File file = new File("not_null");
+                
+                FileUtils.copyURLToFile(url, file);
+                weatherImages[index] = ImageIO.read(file);
+            } catch (IOException i) {
+                i.printStackTrace();
+            }           
+        }
     }
     
     /**
@@ -72,9 +90,9 @@ public class WeatherData {
     /**
      * Gets the next five hours of weather images.
      * 
-     * @return weatherImages as an ImagePanel[]
+     * @return weatherImages as a BufferedImage[]
      */
-    public ImagePanel[] getWeatherImages() {
+    public BufferedImage[] getWeatherImages() {
         return weatherImages;
     }
 }

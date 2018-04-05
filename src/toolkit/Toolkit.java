@@ -7,6 +7,9 @@ package toolkit;
  * @version 1.0
  */
 public class Toolkit {
+    /**
+     * The web domain that this app is built to scrape.
+     */
     public static final String DOMAIN = "https://www.timeanddate.com/";
     private static final int MILLISECONDS_IN_SECONDS = 1000;
     
@@ -28,18 +31,24 @@ public class Toolkit {
      * @param delay - The delay in milliseconds
      */
     public static void setTimeout(Runnable runnable, long delay) {
-        System.out.println("difference: " + delay);
+        System.out.println("difference: " + delay + "\n");
         
         new Thread(() -> {
             try {
                 Thread.sleep(delay);
                 runnable.run();
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 System.err.println(e);
             }
         }).start();
     }
     
+    /**
+     * Converts seconds to milliseconds.
+     * 
+     * @param seconds - The seconds to convert
+     * @return seconds as milliseconds
+     */
     public static long convertSecondsToMilliseconds(long seconds) {
         return seconds * MILLISECONDS_IN_SECONDS;
     }

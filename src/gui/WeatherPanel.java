@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.util.Hashtable;
@@ -43,7 +42,7 @@ public class WeatherPanel extends SunTimePanel {
     public WeatherPanel(WeatherData weatherData) {
         this.weatherData = weatherData;
         temperature = new JLabel(weatherData.getNextFiveHours()[0]);
-        image = weatherData.getWeatherImages()[0].getImage();
+        image = weatherData.getWeatherImages()[0];
         imageLabel = new JLabel(new ImageIcon(image));
         nextFiveHours = new JSlider(JSlider.VERTICAL, 0, SLIDER_SIZE, 0);
     }
@@ -155,7 +154,6 @@ public class WeatherPanel extends SunTimePanel {
      * Set the slider size and inverts the direction.
      */
     private void setSliderSize() {
-        //nextFiveHours.setPreferredSize(new Dimension(50, 10));
         nextFiveHours.setInverted(true);
     }
     
@@ -183,7 +181,7 @@ public class WeatherPanel extends SunTimePanel {
      * @param hour - How many hours from now to display the image for
      */
     public void updateWeatherImage(int hour) {
-        image = weatherData.getWeatherImages()[hour].getImage();
+        image = weatherData.getWeatherImages()[hour];
         ((ImageIcon) imageLabel.getIcon()).setImage(image);
         repaint();
     }

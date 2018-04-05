@@ -51,23 +51,38 @@ public class MainContainer extends JPanel {
         
         setLayout(new BorderLayout());
         
-        sunPanel = new AstronomyPanel(astronomyData);
-        temperaturePanel = new WeatherPanel(weatherData);
-        timePanel = new TimePanel();       
-        sliderPanel = new SliderPanel(this);
-        locationPanel = new LocationPanel(this);
-        
-        coloursTimer = new Timer(COLOURS_TIMER_DELAY, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                updateColours();
-            }
-        });
-        
+        createPanels(astronomyData, weatherData);
+        createColoursTimer();
         synchronizeHourlyScraping();
         
         sunTimePanels = new ArrayList<SunTimePanel>();
         
         fillSunTimePanels();
+    }
+    
+    /**
+     * Creates all the panels.
+     * 
+     * @param astronomyData - the data used to create the AstronomyPanel
+     * @param weatherData - the data used to create the WeatherPanel
+     */
+    private void createPanels(AstronomyData astronomyData, WeatherData weatherData) {
+        sunPanel = new AstronomyPanel(astronomyData);
+        temperaturePanel = new WeatherPanel(weatherData);
+        timePanel = new TimePanel();       
+        sliderPanel = new SliderPanel(this);
+        locationPanel = new LocationPanel(this);        
+    }
+    
+    /**
+     * Creates the coloursTimer.
+     */
+    private void createColoursTimer() {
+        coloursTimer = new Timer(COLOURS_TIMER_DELAY, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateColours();
+            }
+        });        
     }
     
     /**
