@@ -42,9 +42,10 @@ public class Scraper {
     /**
      * Change the city to scrape information from.
      * 
+     * @param newLocation - The website to be scraped
      */
-    public void changeCity(WebAddress webAddress) {
-        this.webAddress = webAddress;
+    public void changeCity(WebAddress newLocation) {
+        this.webAddress = newLocation;
         domainExtension = webAddress.getCountry() + "/" + webAddress.getCity();
         astronomyDir = "sun/" + domainExtension;
         weatherDir = "weather/" + domainExtension;
@@ -119,6 +120,11 @@ public class Scraper {
         parser.parseWeatherData(doc);
     }
     
+    /**
+     * Gets the WebAddress object.
+     * 
+     * @return webAddress as a WebAddress
+     */
     public WebAddress getWebAddress() {
         return webAddress;
     }

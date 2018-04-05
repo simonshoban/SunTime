@@ -60,6 +60,11 @@ public class WeatherData {
         return nextFiveHours;
     }
     
+    /**
+     * Gets the fiveHourTimes.
+     * 
+     * @return fiveHourTimes as a String[]
+     */
     public String[] getFiveHourTimes() {
         return fiveHourTimes;
     }

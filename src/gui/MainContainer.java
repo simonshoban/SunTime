@@ -42,6 +42,8 @@ public class MainContainer extends JPanel {
      * 
      * @param astronomyData - Used to construct the AstronomyPanel
      * @param weatherData - Used to construct the WeatherPanel
+     * @param frame - The WindowFrame that this MainContainer belongs to
+     * @param parser - The parser used to create the weather and astronomy data
      */
     public MainContainer(AstronomyData astronomyData, WeatherData weatherData, WindowFrame frame, Parser parser) {
         this.frame = frame;
@@ -68,6 +70,9 @@ public class MainContainer extends JPanel {
         fillSunTimePanels();
     }
     
+    /**
+     * Adds all SunTimePanels to the sunTimePanels ArrayList.
+     */
     private void fillSunTimePanels() {
         sunTimePanels.add(sunPanel);
         sunTimePanels.add(temperaturePanel);
@@ -82,10 +87,14 @@ public class MainContainer extends JPanel {
         sunPanel.init();
         temperaturePanel.init();
         coloursTimer.start();
+        
         addElements();
 
     }
     
+    /**
+     * Adds all panels to the MainContainer.
+     */
     private void addElements() {
         add(sunPanel, BorderLayout.WEST);
         add(sliderPanel, BorderLayout.SOUTH);
@@ -104,14 +113,18 @@ public class MainContainer extends JPanel {
         timePanel.updateTime(dayOfYear);
     }
     
+    /**
+     * Scrapes new information based on the new given location.
+     * 
+     * @param newLocation - The new location
+     */
     public void scrapeNewInfo(WebAddress newLocation) {
         parser.updateParser(newLocation);
         sunPanel.updateAstronomyData(parser.getAstronomyArrays());
         temperaturePanel.updateWeatherData(parser.getWeatherArrays());
+        frame.updateTitle(newLocation);
         
         updateDailyInformation(sliderPanel.getDay());
-        
-        frame.updateTitle(newLocation);
     }
     
     /**
@@ -125,37 +138,86 @@ public class MainContainer extends JPanel {
         }
     }
     
+    /**
+     * Synchronizes the hourly scraping to the clock.
+     */
     private void synchronizeHourlyScraping() {
-        LocalTime now = LocalTime.now();
-        if (now.getMinute() == 0 && now.getSecond() == 0) {
-
+        if (isExactHour()) {
             scrapeHourly();
         } else {
-            LocalTime nextHour = LocalTime.now();
-            
-            nextHour = nextHour.plusHours(1);
-            nextHour = nextHour.withMinute(0);
-            nextHour = nextHour.withSecond(0);
-            
-            long difference = LocalTime.now().until(nextHour, ChronoUnit.SECONDS) * 1000;
-            
-            System.out.println("difference: " + difference);
-            
-            Toolkit.setTimeout(() -> scrapeHourly(), difference);
+            scrapeAtTheHour();
         }
     }
     
-    private void scrapeHourly() {
-        scrapeNewInfo(parser.getScraper().getWebAddress());
+    /**
+     * Scrapes new information at the next hour.
+     */
+    private void scrapeAtTheHour() {
+        LocalTime nextHour = getTheNextExactHour();
+        long difference = getDifferenceFromNextHour(nextHour);
         
-        scraperTimer = new Timer(SCRAPER_TIMER_DELAY, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                scrapeNewInfo(parser.getScraper().getWebAddress());
-            }
-        });
+        Toolkit.setTimeout(() -> scrapeHourly(), difference);       
+    }
+    
+    /**
+     * Gets the time difference between now and the next hour.
+     * 
+     * @param nextHour - The LocalTime object representing the next hour
+     * @return the number of milliseconds between now and the next hour
+     */
+    private long getDifferenceFromNextHour(LocalTime nextHour) {
+        long difference;
+        
+        difference = LocalTime.now().until(nextHour, ChronoUnit.SECONDS);           
+        difference = Toolkit.convertSecondsToMilliseconds(difference);
+        
+        return difference;
+    }
+    
+    /**
+     * Gets the next exact hour.
+     * 
+     * @return the next exact hour
+     */
+    private LocalTime getTheNextExactHour() {
+        LocalTime nextHour = LocalTime.now();
+        
+        nextHour = nextHour.plusHours(1);
+        nextHour = nextHour.withMinute(0);
+        nextHour = nextHour.withSecond(0);    
+        
+        return nextHour;
+    }
+    
+    /**
+     * Checks if it's an exact hour right now.
+     * 
+     * @return true if it's an exact hour, false otherwise
+     */
+    private boolean isExactHour() {
+        LocalTime now = LocalTime.now();
+        
+        return now.getMinute() == 0 && now.getSecond() == 0;
+    }
+    
+    /**
+     * Scrapes new information at the hour.
+     */
+    private void scrapeHourly() {
+        scrapeNewInfo(parser.getScraper().getWebAddress());     
+        createScraperTimer();
         
         scraperTimer.start();
     }
     
-   
+    /**
+     * Creates the ScraperTimer.
+     */
+    private void createScraperTimer() {
+        scraperTimer = new Timer(SCRAPER_TIMER_DELAY, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                scrapeNewInfo(parser.getScraper().getWebAddress());
+            }
+        });       
+    }
 }

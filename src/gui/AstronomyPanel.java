@@ -40,6 +40,11 @@ public class AstronomyPanel extends SunTimePanel {
                 + "</html>");
     }
     
+    /**
+     * Updates the stored AstronomyData.
+     * 
+     * @param newData - The new AstronomyData
+     */
     public void updateAstronomyData(AstronomyData newData) {
         astronomyData = newData;
         init();
@@ -98,6 +103,11 @@ public class AstronomyPanel extends SunTimePanel {
         //System.out.println("stimes: " + astronomyData.getSunriseTimes().get(day-1));
     }
 
+    /**
+     * Gets the text font.
+     * 
+     * @return TEXT_FONT
+     */
     public static Font getTextFont() {
         return TEXT_FONT;
     }

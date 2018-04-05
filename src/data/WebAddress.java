@@ -29,6 +29,13 @@ public class WebAddress {
         this.country = formatString(country, 1);
     }
     
+    /**
+     * Formats the WebAddress strings into something the Parser can use.
+     * 
+     * @param string - The string to format
+     * @param version - 0 for city, 1 for country
+     * @return - The formatted string
+     */
     private String formatString(String string, int version) {
         string = string.trim().toLowerCase();
         capitalizedVersions[version] = Toolkit.capitalize(string);
@@ -39,6 +46,15 @@ public class WebAddress {
         return string;
     }
     
+    /**
+     * Parses the string by the parsing agent and rejoins it after creating a 
+     * capitalized version of the string.
+     * 
+     * @param string - The string to be parsed and rejoined
+     * @param version - 0 for city, 1 for country
+     * @param parsingAgent - The token to parse by
+     * @return - The rejoined version of the string
+     */
     private String parseAndRejoin(String string, int version, String parsingAgent) {
         if (string.contains(parsingAgent)) {
             String[] words = string.split(parsingAgent);
@@ -86,10 +102,20 @@ public class WebAddress {
         return city;
     }
     
+    /**
+     * Gets the capitalized string of the city name.
+     * 
+     * @return capitalizedVersions[0]
+     */
     public String getCapitalizedCity() {
         return capitalizedVersions[0];
     }
     
+    /**
+     * Gets the capitalized string of the country name.
+     * 
+     * @return capitalizedVersions[1]
+     */
     public String getCapitalizedCountry() {
         return capitalizedVersions[1];
     }

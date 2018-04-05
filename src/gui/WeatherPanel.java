@@ -14,7 +14,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import data.WeatherData;
-import gui.AstronomyPanel;
 
 /**
  * Displays weather information.
@@ -64,6 +63,11 @@ public class WeatherPanel extends SunTimePanel {
         addElements();
     }
     
+    /**
+     * Updates the stored weather data.
+     * 
+     * @param newData - The new data
+     */
     public void updateWeatherData(WeatherData newData) {
         weatherData = newData;
         
@@ -71,6 +75,9 @@ public class WeatherPanel extends SunTimePanel {
         refreshHourlyInformation();
     }
     
+    /**
+     * Refreshes the displayed hourly information.
+     */
     private void refreshHourlyInformation() {
         updateFiveHourInformation(nextFiveHours.getValue());
         updateWeatherImage(nextFiveHours.getValue());       
@@ -125,6 +132,9 @@ public class WeatherPanel extends SunTimePanel {
         nextFiveHours.setMajorTickSpacing(1);
     }
     
+    /**
+     * Sets the labels for the hourly slider.
+     */
     private void setSliderLabels() {
         Hashtable<Integer, JLabel> times = new Hashtable<Integer, JLabel>();
         

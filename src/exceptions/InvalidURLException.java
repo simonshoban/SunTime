@@ -9,7 +9,7 @@ import data.WebAddress;
  * @author Simon Shoban
  * @version 1.0
  */
-public class InvalidURLException extends Exception {
+public class InvalidURLException extends SunTimeException {
     private WebAddress webAddress;
     private String extension;
     
@@ -28,19 +28,10 @@ public class InvalidURLException extends Exception {
      * Prints error message.
      */
     public void printErrorMessage() {
-        errPrint("Invalid URL: " + webAddress.getDomain() + extension + "/n");
-        errPrint("Domain: " + webAddress.getDomain());
-        errPrint("Country: " + webAddress.getCountry());
-        errPrint("City: " + webAddress.getCity());
-        errPrint("Extension: " + extension + "\n");
-    }
-    
-    /**
-     * Helper function that prints messages to stderr.
-     * 
-     * @param message - The message to print
-     */
-    private void errPrint(String message) {
-        System.err.println(message);
+        error("Invalid URL: " + webAddress.getDomain() + extension + "/n");
+        error("Domain: " + webAddress.getDomain());
+        error("Country: " + webAddress.getCountry());
+        error("City: " + webAddress.getCity());
+        error("Extension: " + extension + "\n");
     }
 }

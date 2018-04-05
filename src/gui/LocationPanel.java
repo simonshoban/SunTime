@@ -1,8 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -12,11 +10,23 @@ import javax.swing.JTextField;
 import data.WebAddress;
 import toolkit.Toolkit;
 
+/**
+ * A SunTimePanel that contains the text boxes to change location.
+ * 
+ * @author Simon Shoban
+ * @version 1.0
+ */
+@SuppressWarnings("serial")
 public class LocationPanel extends SunTimePanel {
     private JTextField city;
     private JTextField country;
     private JButton submit;
     
+    /**
+     * Constructs a LocationPanel.
+     * 
+     * @param container - The MainContainer that this SunTimePanel belongs to
+     */
     public LocationPanel(MainContainer container) {
         city = new JTextField("Lima");
         country = new JTextField("Peru");
@@ -56,10 +66,16 @@ public class LocationPanel extends SunTimePanel {
         add(submit, BorderLayout.SOUTH);
     }
     
+    /**
+     * Clears all text fields.
+     */
     public void resetAllFields() {
         
     }
     
+    /**
+     * Clears a single text field.
+     */
     public void resetField() {
         
     }

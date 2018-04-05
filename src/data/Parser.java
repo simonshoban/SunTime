@@ -28,6 +28,11 @@ public class Parser {
         webScraper.scrapeAstronomyAndWeather(this);
     }
     
+    /**
+     * Updates the data stored in the parser according to the new web address.
+     * 
+     * @param newWebAddress - The new web address
+     */
     public void updateParser(WebAddress newWebAddress) {
         webScraper.changeCity(newWebAddress);
         webScraper.scrapeAstronomyAndWeather(this);
@@ -60,6 +65,11 @@ public class Parser {
         parseImageData(table);
     }
     
+    /**
+     * Parses the temperature data and inserts it into the WeatherData.
+     * 
+     * @param table - The HTML table to parse
+     */
     private void parseTemperatureData(Element table) {
         Element temperatureRow = table.getElementsByClass("soft").first();
         Elements temperature = temperatureRow.getElementsByTag("td");
@@ -72,6 +82,11 @@ public class Parser {
         weatherData = new WeatherData(temperatures);
     }
     
+    /**
+     * Parses the time data and inserts it into the WeatherData.
+     * 
+     * @param table - The HTML table to parse
+     */
     private void parseTimeData(Element table) {
         Element timeRow = table.getElementsByClass("h2").first();
         Elements fiveHourTimes = timeRow.getElementsByTag("td");
@@ -84,6 +99,11 @@ public class Parser {
         weatherData.insertFiveHourTimes(times);
     }
     
+    /**
+     * Parses the image data and inserts it into the WeatherData.
+     * 
+     * @param table - The HTML table to parse
+     */
     private void parseImageData(Element table) {
         Elements images = table.getElementsByTag("img");
         ImagePanel[] imagePanels = new ImagePanel[SIZE_OF_TEMPERATURES];
@@ -115,6 +135,11 @@ public class Parser {
         return weatherData;
     }
     
+    /**
+     * Gets the scraper.
+     * 
+     * @return - webScraper as a Scraper
+     */
     public Scraper getScraper() {
         return webScraper;
     }
