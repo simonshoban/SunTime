@@ -104,7 +104,6 @@ public class MainContainer extends JPanel {
         coloursTimer.start();
         
         addElements();
-
     }
     
     /**
@@ -160,14 +159,14 @@ public class MainContainer extends JPanel {
         if (isExactHour()) {
             scrapeHourly();
         } else {
-            scrapeAtTheHour();
+            scrapeAtTheNextHour();
         }
     }
     
     /**
      * Scrapes new information at the next hour.
      */
-    private void scrapeAtTheHour() {
+    private void scrapeAtTheNextHour() {
         LocalTime nextHour = getTheNextExactHour();
         long difference = getDifferenceFromNextHour(nextHour);
         

@@ -100,7 +100,6 @@ public class AstronomyPanel extends SunTimePanel {
                 +  "<br/>Sun sets at "
                 + astronomyData.getSunsetTimes().get(day - 1)
                 + "</html>");
-        //System.out.println("stimes: " + astronomyData.getSunriseTimes().get(day-1));
     }
 
     /**

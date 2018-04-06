@@ -70,13 +70,13 @@ public class LocationPanel extends SunTimePanel {
      * Clears all text fields.
      */
     public void resetAllFields() {
-        
+        throw new UnsupportedOperationException();
     }
     
     /**
      * Clears a single text field.
      */
     public void resetField() {
-        
+        throw new UnsupportedOperationException();
     }
 }

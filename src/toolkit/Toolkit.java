@@ -1,5 +1,7 @@
 package toolkit;
 
+import java.util.TimeZone;
+
 /**
  * A toolkit of useful stuff.
  * 
@@ -59,7 +61,11 @@ public class Toolkit {
      * @param unformattedData - The unformatted time zone code
      * @return a UTF time zone code
      */
-    public static String formatTimeZoneCode(String unformattedData) {
-        throw new UnsupportedOperationException();
+    public static TimeZone formatTimeZoneCode(String unformattedData) {
+        String formattedData = unformattedData.replaceAll("\\s+", "");
+        formattedData = formattedData.replaceAll("UTC/", "");
+        formattedData = formattedData.replaceAll("hours", "");
+        
+        return TimeZone.getTimeZone(formattedData);
     }
 }

@@ -131,6 +131,13 @@ public class Parser {
         weatherData.insertWeatherImages(weatherImages);
     }
     
+    public void parseTimeZone(Document document) {
+        Element qFactsDiv = document.getElementById("qfacts");
+        Elements mgt25 = qFactsDiv.getElementsByClass("mgt25");
+        String timeZoneString = mgt25.get(0).getElementsByClass("big").first().text();
+        
+    }
+    
     /**
      * Gets the astronomy arrays.
      * 

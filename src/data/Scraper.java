@@ -22,9 +22,11 @@ public class Scraper {
     private String domainExtension;
     private String astronomyDir;
     private String weatherDir;
+    private String timeDir;
     private String url;
     private Document doc;
     private WebAddress webAddress;
+    private WebAddress backupWebAddress;
     
     /**
      * Constructs a Scraper object.
@@ -33,10 +35,12 @@ public class Scraper {
      */
     public Scraper(WebAddress webAddress) {
         this.webAddress = webAddress;
+        backupWebAddress = webAddress;
         domain = webAddress.getDomain();
         domainExtension = webAddress.getCountry() + "/" + webAddress.getCity();
         astronomyDir = "sun/" + domainExtension;
         weatherDir = "weather/" + domainExtension;
+        timeDir = "time/zone/" + domainExtension;
     }
     
     /**
@@ -49,6 +53,7 @@ public class Scraper {
         domainExtension = webAddress.getCountry() + "/" + webAddress.getCity();
         astronomyDir = "sun/" + domainExtension;
         weatherDir = "weather/" + domainExtension;
+        timeDir = "time/zone/" + domainExtension;
     }
     
     /**
@@ -60,8 +65,10 @@ public class Scraper {
         try {
             scrapeAstronomy(webParser);     
             scrapeWeather(webParser);   
+            backupWebAddress = webAddress;
         } catch (InvalidURLException i) {
             i.printErrorMessage();
+            webAddress = backupWebAddress;
         }
         
         System.out.println();
@@ -86,6 +93,7 @@ public class Scraper {
      */
     private Document[] gatherAstronomyDocuments() throws InvalidURLException {
         Document[] astroDocs = new Document[NUM_OF_DOCS];
+        
         for (int month = JANUARY; month <= DECEMBER; month++) {
             String monthExtension = "?month=" + month;
             try {
@@ -121,6 +129,19 @@ public class Scraper {
         }
         System.out.println(url);
         parser.parseWeatherData(doc);
+    }
+    
+    public void scrapeTimeZone(Parser parser) throws InvalidURLException {
+        try {
+            url = domain + timeDir;
+            doc = Jsoup.connect(url).get();
+        } catch (HttpStatusException e) {
+            throw new InvalidURLException(webAddress, timeDir);
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+        System.out.println(url);
+        parser.parseTimeZone(doc);
     }
     
     /**

@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class SunTimePanel extends JPanel {
+public abstract class SunTimePanel extends JPanel {
     private static final int RED_MULTIPLIER = 8;
     private static final int GREEN_MULTIPLIER = 12;
     private static final int BLUE_MULTIPLIER = 15;
@@ -35,11 +35,14 @@ public class SunTimePanel extends JPanel {
     
     private Color backgroundColour;
     
+    private LocalDateTime now;
+    
     /**
      * Constructs a SunTimePanel object.
      */
     public SunTimePanel() {
         setLayout(new BorderLayout());
+        now = LocalDateTime.now();
         updateColours();
     }
     
@@ -48,14 +51,21 @@ public class SunTimePanel extends JPanel {
      */
     public void updateColours() {
         resetValues(); 
-        
-        red = calculateColour(red, RED_MULTIPLIER);
-        green = calculateColour(green, GREEN_MULTIPLIER);
-        blue = calculateColour(blue, BLUE_MULTIPLIER);
-        
-        backgroundColour = new Color((int) red, (int) green, (int) blue);
-        
-        setBackground(backgroundColour);
+        calculateColours();
+        updateBackground();
+    }   
+    
+//    public void changeTimeZone(TimeZone timeZone) {
+//        
+//    }
+    
+    /**
+     * Gets the current background colour of this SunTimePanel.
+     * 
+     * @return backgroundColour as a Color
+     */
+    public Color getBackgroundColour() {
+        return backgroundColour;
     }
     
     /**
@@ -72,11 +82,29 @@ public class SunTimePanel extends JPanel {
     }
     
     /**
+     * Calculates the RGB colour values.
+     */
+    private void calculateColours() {
+        red = calculateColour(red, RED_MULTIPLIER);
+        green = calculateColour(green, GREEN_MULTIPLIER);
+        blue = calculateColour(blue, BLUE_MULTIPLIER);        
+    }
+    
+    /**
+     * Updates the background to the new colour.
+     */
+    private void updateBackground() {
+        backgroundColour = new Color((int) red, (int) green, (int) blue);
+        
+        setBackground(backgroundColour);        
+    }
+    
+    /**
      * Calculates the seconds needed for the algorithm.
      */
     private void calculateSeconds() {
         double radius = SECONDS_IN_HALF_DAY;
-        double x = LocalDateTime.now().toLocalTime().toSecondOfDay() - SECONDS_IN_HALF_DAY;
+        double x = now.toLocalTime().toSecondOfDay() - SECONDS_IN_HALF_DAY;
         
         seconds = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2));
     }
@@ -99,14 +127,5 @@ public class SunTimePanel extends JPanel {
      */
     private double calculateColour(double colour, int colourMultiplier) {
         return colour + multiplier * seconds / SECONDS_IN_HOUR * colourMultiplier;
-    }
-    
-    /**
-     * Gets the current background colour of this SunTimePanel.
-     * 
-     * @return backgroundColour as a Color
-     */
-    public Color getBackgroundColour() {
-        return backgroundColour;
     }
 }

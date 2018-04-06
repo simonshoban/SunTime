@@ -1,8 +1,10 @@
 package main;
 
-import gui.WindowFrame;
 import toolkit.Toolkit;
+
+import gui.WindowFrame;
 import gui.MainContainer;
+
 import data.AstronomyData;
 import data.Parser;
 import data.WeatherData;
@@ -53,6 +55,6 @@ public final class Main {
 
         container.init();
         windowFrame.add(container);
-        windowFrame.init();
+        windowFrame.init();     
     }
 }
