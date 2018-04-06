@@ -104,6 +104,7 @@ public abstract class SunTimePanel extends JPanel {
      */
     private void calculateSeconds() {
         double radius = SECONDS_IN_HALF_DAY;
+        now = now.now();
         double x = now.toLocalTime().toSecondOfDay() - SECONDS_IN_HALF_DAY;
         
         seconds = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2));
