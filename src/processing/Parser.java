@@ -44,7 +44,6 @@ public class Parser {
     public Parser(WebAddress webAddress) {
         this.webAddress = webAddress;
         this.webScraper = new Scraper();
-        backupWebAddress = webAddress;
         webScraper.scrapeEverything();
     }
     
@@ -163,21 +162,30 @@ public class Parser {
     }
     
     /**
-     * Gets the astronomy arrays.
+     * Gets the astronomy data.
      * 
      * @return - astronomyData as an AstronomyData
      */
-    public AstronomyData getAstronomyArrays() {
+    public AstronomyData getAstronomyData() {
         return astronomyData;
     }
     
     /**
-     * Gets the weather arrays.
+     * Gets the weather data.
      * 
      * @return - weatherData as a WeatherData
      */
-    public WeatherData getWeatherArrays() {
+    public WeatherData getWeatherData() {
         return weatherData;
+    }
+    
+    /**
+     * Gets the temporal data.
+     * 
+     * @return - temporalData as a TemporalData
+     */
+    public TemporalData getTemporalData() {
+        return temporalData;
     }
     
     /**

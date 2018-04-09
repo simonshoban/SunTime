@@ -3,6 +3,11 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import javax.swing.JPanel;
 
@@ -34,15 +39,16 @@ public abstract class SunTimePanel extends JPanel {
     private int multiplier;
     
     private Color backgroundColour;
-    
-    private LocalDateTime now;
+    private ZonedDateTime today;
+    private ZoneId zoneID;
     
     /**
      * Constructs a SunTimePanel object.
      */
     public SunTimePanel() {
+        zoneID = ZoneId.systemDefault();
+        today = ZonedDateTime.now(zoneID);
         setLayout(new BorderLayout());
-        now = LocalDateTime.now();
         updateColours();
     }
     
@@ -55,9 +61,21 @@ public abstract class SunTimePanel extends JPanel {
         updateBackground();
     }   
     
-//    public void changeTimeZone(TimeZone timeZone) {
-//        
-//    }
+    /**
+     * Changes the time zone of the SunTimePanel.
+     * 
+     * @param timeZone - The TimeZone object representing the new time zone
+     */
+    public void changeTimeZone(TimeZone timeZone) {
+        String offset = timeZone.getDisplayName().substring(timeZone.getDisplayName().indexOf("T") + 1);
+        
+        offset = (offset.equals("ime")) ? "Z" : offset;
+        
+        System.out.println("offset: " + offset);
+        
+        zoneID = ZoneId.ofOffset("GMT", ZoneOffset.of(offset));
+        today = ZonedDateTime.now(zoneID);
+    }
     
     /**
      * Gets the current background colour of this SunTimePanel.
@@ -77,6 +95,7 @@ public abstract class SunTimePanel extends JPanel {
         red = RED_TIMES[timeOfDay];
         green = GREEN_TIMES[timeOfDay];
         blue = BLUE_TIMES[timeOfDay];
+        today = ZonedDateTime.now(zoneID);
         
         calculateSeconds();
     }
@@ -103,9 +122,9 @@ public abstract class SunTimePanel extends JPanel {
      * Calculates the seconds needed for the algorithm.
      */
     private void calculateSeconds() {
+        int now = today.toLocalDateTime().toLocalTime().toSecondOfDay();
         double radius = SECONDS_IN_HALF_DAY;
-        now = now.now();
-        double x = now.toLocalTime().toSecondOfDay() - SECONDS_IN_HALF_DAY;
+        double x = now - SECONDS_IN_HALF_DAY;
         
         seconds = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2));
     }

@@ -38,8 +38,8 @@ public final class Main {
         WebAddress webAddress = new WebAddress(Toolkit.DOMAIN, city, country);
         Parser webParser = new Parser(webAddress);
 
-        AstronomyData astronomyData = webParser.getAstronomyArrays();
-        WeatherData weatherData = webParser.getWeatherArrays();
+        AstronomyData astronomyData = webParser.getAstronomyData();
+        WeatherData weatherData = webParser.getWeatherData();
 
         WindowFrame windowFrame = new WindowFrame(
                 WINDOW_WIDTH,

@@ -28,8 +28,8 @@ public class LocationPanel extends SunTimePanel {
      * @param container - The MainContainer that this SunTimePanel belongs to
      */
     public LocationPanel(MainContainer container) {
-        city = new JTextField("Lima");
-        country = new JTextField("Peru");
+        city = new JTextField("Reykjavik");
+        country = new JTextField("Iceland");
         submit = new JButton("Submit");
         submit.addMouseListener(new MouseListener() {
 

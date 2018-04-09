@@ -134,11 +134,18 @@ public class MainContainer extends JPanel {
      */
     public void scrapeNewInfo(WebAddress newLocation) {
         parser.updateParser(newLocation);
-        sunPanel.updateAstronomyData(parser.getAstronomyArrays());
-        temperaturePanel.updateWeatherData(parser.getWeatherArrays());
+        sunPanel.updateAstronomyData(parser.getAstronomyData());
+        temperaturePanel.updateWeatherData(parser.getWeatherData());
         frame.updateTitle(newLocation);
         
+        updateTimeZonesOfDynamicPanels();
         updateDailyInformation(sliderPanel.getDay());
+    }
+    
+    private void updateTimeZonesOfDynamicPanels() {
+        for (SunTimePanel sunTimePanel : sunTimePanels) {
+            sunTimePanel.changeTimeZone(parser.getTemporalData().getTimeZone());
+        }
     }
     
     /**

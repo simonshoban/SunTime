@@ -72,7 +72,9 @@ public class Toolkit {
         }
         
         formattedData = formattedData.substring(formattedData.indexOf("GMT"));
-        formattedData = formattedData.replaceAll("hours", "");        
+        formattedData = formattedData.replaceAll("hours?", "");
+        
+        System.out.println("fd: " + formattedData);
         
         return TimeZone.getTimeZone(formattedData);
     }
