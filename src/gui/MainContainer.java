@@ -14,7 +14,7 @@ import data.WeatherData;
 import data.WebAddress;
 import toolkit.Toolkit;
 import data.AstronomyData;
-import data.Parser;
+import processing.Parser;
 
 /**
  * The outermost JPanel container.
@@ -218,7 +218,7 @@ public class MainContainer extends JPanel {
      * Scrapes new information at the hour.
      */
     private void scrapeHourly() {
-        scrapeNewInfo(parser.getScraper().getWebAddress());     
+        scrapeNewInfo(parser.getWebAddress());     
         createScraperTimer();
         
         scraperTimer.start();
@@ -230,7 +230,7 @@ public class MainContainer extends JPanel {
     private void createScraperTimer() {
         scraperTimer = new Timer(SCRAPER_TIMER_DELAY, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                scrapeNewInfo(parser.getScraper().getWebAddress());
+                scrapeNewInfo(parser.getWebAddress());
             }
         });       
     }

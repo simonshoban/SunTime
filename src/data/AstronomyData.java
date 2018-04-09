@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import toolkit.Toolkit;
-
 import java.util.Collections;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Holds astronomy data from timeandate.com.
@@ -19,7 +16,6 @@ import java.util.TimeZone;
 public class AstronomyData {
     private ArrayList<String> sunriseTimes;
     private ArrayList<String> sunsetTimes;
-    private TimeZone timeZone;
     
     /**
      * Constructs an AstronomyData object.
@@ -46,10 +42,6 @@ public class AstronomyData {
         }       
     }
     
-    public void insertTimeZone(String timeZoneString) {
-        timeZone = Toolkit.formatTimeZoneCode(timeZoneString);
-    }
-    
     /**
      * Gets a list of sunrise times.
      * 
@@ -66,9 +58,5 @@ public class AstronomyData {
      */
     public List<String> getSunsetTimes() {
         return Collections.unmodifiableList(sunsetTimes);
-    }
-    
-    public TimeZone getTimeZone() {
-        return timeZone;
     }
 }

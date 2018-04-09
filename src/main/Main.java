@@ -6,9 +6,10 @@ import gui.WindowFrame;
 import gui.MainContainer;
 
 import data.AstronomyData;
-import data.Parser;
 import data.WeatherData;
 import data.WebAddress;
+
+import processing.Parser;
 
 /**
  * Drives the program.

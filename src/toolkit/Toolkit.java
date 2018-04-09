@@ -2,6 +2,8 @@ package toolkit;
 
 import java.util.TimeZone;
 
+import exceptions.InvalidTimeZoneException;
+
 /**
  * A toolkit of useful stuff.
  * 
@@ -60,12 +62,28 @@ public class Toolkit {
      * 
      * @param unformattedData - The unformatted time zone code
      * @return a UTF time zone code
+     * @throws InvalidTimeZoneException 
      */
-    public static TimeZone formatTimeZoneCode(String unformattedData) {
+    public static TimeZone formatTimeZoneCode(String unformattedData) throws InvalidTimeZoneException {        
         String formattedData = unformattedData.replaceAll("\\s+", "");
-        formattedData = formattedData.replaceAll("UTC/", "");
-        formattedData = formattedData.replaceAll("hours", "");
+        
+        if (isNotUsingGMT(formattedData)) {
+            throw new InvalidTimeZoneException(formattedData);
+        }
+        
+        formattedData = formattedData.substring(formattedData.indexOf("GMT"));
+        formattedData = formattedData.replaceAll("hours", "");        
         
         return TimeZone.getTimeZone(formattedData);
+    }
+    
+    /**
+     * Checks if a time zone code string is using the GMT format or not.
+     * 
+     * @param timeZoneCode - The string containing the time zone
+     * @return true if string contains GMT, false otherwise
+     */
+    private static boolean isNotUsingGMT(String timeZoneCode) {
+        return !(timeZoneCode.contains("GMT"));
     }
 }
