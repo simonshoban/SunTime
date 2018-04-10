@@ -28,7 +28,7 @@ public class LocationPanel extends SunTimePanel {
      * @param container - The MainContainer that this SunTimePanel belongs to
      */
     public LocationPanel(MainContainer container) {
-        city = new JTextField("Saint Petersburg");
+        city = new JTextField("Saint Peterburg");
         country = new JTextField("Russia");
         submit = new JButton("Submit");
         submit.addMouseListener(new MouseListener() {

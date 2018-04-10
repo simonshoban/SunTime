@@ -21,6 +21,7 @@ public class InvalidTimeZoneException extends SunTimeException {
 
     @Override
     public void printErrorMessage() {
+        error("InvalidTimeZoneException!");
         error("Invalid time zone code: " + invalidTimeZone);
     }
 }

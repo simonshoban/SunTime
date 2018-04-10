@@ -11,7 +11,14 @@ import data.WebAddress;
  */
 @SuppressWarnings("serial")
 public class InvalidURLException extends SunTimeException {
+    /**
+     * The WebAddress containing the invalid URL.
+     */
     protected WebAddress webAddress;
+    
+    /**
+     * The extension that was part of the invalid URL.
+     */
     protected String extension;
     
     /**
@@ -29,6 +36,7 @@ public class InvalidURLException extends SunTimeException {
      * Prints error message.
      */
     public void printErrorMessage() {
+        error("InvalidURLException!");
         error("Invalid URL: " + webAddress.getDomain() + extension + "/n");
         error("Domain: " + webAddress.getDomain());
         error("Country: " + webAddress.getCountry());

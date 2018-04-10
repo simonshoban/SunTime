@@ -26,6 +26,7 @@ public class SaintPetersburgException extends InvalidURLException {
      */
     @Override
     public void printErrorMessage() {
+        error("SaintPetersburgException!");
         error("Saint Petersburg is misspelled as Saint Peterburg on timeanddate.com");
         error("Please try again with: Saint Peterburg");
     }
