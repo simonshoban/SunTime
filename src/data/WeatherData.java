@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  * @author Simon Shoban
  * @version 1.0
  */
-public class WeatherData {
+public class WeatherData extends SunTimeData {
     private String[] nextFiveHours;
     private String[] fiveHourTimes;
     private BufferedImage[] weatherImages;

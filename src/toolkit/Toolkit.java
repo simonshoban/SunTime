@@ -1,11 +1,5 @@
 package toolkit;
 
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-
-import exceptions.ExceptionFactory;
-import exceptions.InvalidTimeZoneException;
-
 /**
  * A toolkit of useful stuff.
  * 
@@ -18,7 +12,6 @@ public class Toolkit {
      */
     public static final String DOMAIN = "https://www.timeanddate.com/";
     private static final int MILLISECONDS_IN_SECONDS = 1000;
-    private static final int TIME_ZONE_FORMAT_OFFSET = 3;
     
     /**
      * Capitalizes the string.
@@ -51,6 +44,18 @@ public class Toolkit {
     }
     
     /**
+     * Inserts a string into another string at the specified index.
+     * 
+     * @param string - The string to modify
+     * @param c - The string to insert
+     * @param index - The location to insert the new string into the old string
+     * @return The old string containing the new string at the specified location
+     */
+    public static String insertIntoStringAt(String string, String c, int index) {
+        return string.substring(0, index) + c + string.substring(index);
+    }
+    
+    /**
      * Converts seconds to milliseconds.
      * 
      * @param seconds - The seconds to convert
@@ -58,75 +63,5 @@ public class Toolkit {
      */
     public static long convertSecondsToMilliseconds(long seconds) {
         return seconds * MILLISECONDS_IN_SECONDS;
-    }
-    
-    /**
-     * Formats a given string into a ZoneId.
-     * 
-     * @param unformattedData - The unformatted time zone code
-     * @return a ZoneId
-     * @throws InvalidTimeZoneException when given a time zone code that doesn't use GMT or UTF format
-     */
-    public static ZoneId formatTimeZoneCode(String unformattedData) throws InvalidTimeZoneException {
-        String formattedData = unformattedData.replaceAll("\\s+", "");        
-        
-        if (isGMT(formattedData)) {
-            formattedData = "Z";
-        } else {
-            formattedData = removeGMTandUTF(formattedData);
-            formattedData = formattedData.replaceAll("hours?", "");
-            formattedData = insertLeadingZero(formattedData);
-        }
-        
-        System.out.println("fd: " + formattedData);
-        
-        return ZoneId.ofOffset("GMT", ZoneOffset.of(formattedData));
-    }
-    
-    /**
-     * Checks if the given time zone is GMT (no offset).
-     * 
-     * @param timeZone
-     * @return
-     */
-    private static boolean isGMT(String timeZone) {
-        return timeZone.equals("NoUTC/GMToffset");
-    }
-    
-    /**
-     * Removes "GMT" and "UTF" from a time zone string.
-     * 
-     * @param timeZoneString - A string containing a time zone
-     * @return The timeZoneString without "GMT" or "UTF"
-     * @throws InvalidTimeZoneException when given a time zone string that doesn't use GMT or UTF format
-     */
-    private static String removeGMTandUTF(String timeZoneString) throws InvalidTimeZoneException {
-        if (timeZoneString.contains("GMT")) {
-            System.out.println("GMT: " + timeZoneString);
-            timeZoneString = timeZoneString.substring(timeZoneString.indexOf("GMT") + TIME_ZONE_FORMAT_OFFSET);
-        } else if (timeZoneString.contains("UTF")) {
-            System.out.println("UTF: " + timeZoneString);
-            timeZoneString = timeZoneString.substring(timeZoneString.indexOf("UTF") + TIME_ZONE_FORMAT_OFFSET);    
-        } else {
-            ExceptionFactory.throwInvalidTimeZoneException("Not using UTF or GMT");
-        }
-        
-        return timeZoneString;
-    }
-    
-    /**
-     * Inserts a leading zero into the time zone offset if it isn't already there.
-     * 
-     * @param string
-     * @return
-     */
-    private static String insertLeadingZero(String string) {
-        if (string.contains(":30") && string.length() == 5) {
-            String sign = string.substring(0, 1);
-            string = string.substring(1);
-            string = sign + "0" + string;
-        }
-        
-        return string;
     }
 }

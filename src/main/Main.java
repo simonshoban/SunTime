@@ -5,8 +5,6 @@ import toolkit.Toolkit;
 import gui.WindowFrame;
 import gui.MainContainer;
 
-import data.AstronomyData;
-import data.WeatherData;
 import data.WebAddress;
 
 import processing.Parser;
@@ -38,9 +36,6 @@ public final class Main {
         WebAddress webAddress = new WebAddress(Toolkit.DOMAIN, city, country);
         Parser webParser = new Parser(webAddress);
 
-        AstronomyData astronomyData = webParser.getAstronomyData();
-        WeatherData weatherData = webParser.getWeatherData();
-
         WindowFrame windowFrame = new WindowFrame(
                 WINDOW_WIDTH,
                 WINDOW_HEIGHT,
@@ -48,8 +43,6 @@ public final class Main {
                 );
 
         MainContainer container = new MainContainer(
-                astronomyData,
-                weatherData,
                 windowFrame,
                 webParser
                 );

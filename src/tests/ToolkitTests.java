@@ -20,14 +20,14 @@ class ToolkitTests {
         assertTrue(Toolkit.capitalize("aBc").equals("Abc"));
     }
     
-    @Test
-    void timeZoneFormattingShouldThrowExceptionWhenGivenStringWithoutGMT() {
-        assertThrows(InvalidTimeZoneException.class, () -> Toolkit.formatTimeZoneCode("ajsdhfakjsf"));
-    }
-    
-    @Test
-    void pacificStandardTimeStringReturnsCorrectGMTTimeZoneCode() throws InvalidTimeZoneException {
-        assertTrue(Toolkit.formatTimeZoneCode(" UTC/GMT -8 hours").toString().equals("GMT-08:00"));
-    }
+//    @Test
+//    void timeZoneFormattingShouldThrowExceptionWhenGivenStringWithoutGMT() {
+//        assertThrows(InvalidTimeZoneException.class, () -> Toolkit.formatTimeZoneCode("ajsdhfakjsf"));
+//    }
+//    
+//    @Test
+//    void pacificStandardTimeStringReturnsCorrectGMTTimeZoneCode() throws InvalidTimeZoneException {
+//        assertTrue(Toolkit.formatTimeZoneCode(" UTC/GMT -8 hours").toString().equals("GMT-08:00"));
+//    }
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
  * @author Simon Shoban
  * @version 1.0
  */
-public class AstronomyData {
+public class AstronomyData extends SunTimeData {
     private ArrayList<String> sunriseTimes;
     private ArrayList<String> sunsetTimes;
     

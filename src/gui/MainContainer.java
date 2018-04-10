@@ -3,7 +3,8 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -11,9 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import data.WeatherData;
+import data.AstronomyData;
 import data.WebAddress;
 import toolkit.Toolkit;
-import data.AstronomyData;
 import processing.Parser;
 
 /**
@@ -36,22 +37,22 @@ public class MainContainer extends JPanel {
     private LocationPanel locationPanel;
     private Timer coloursTimer;
     private Timer scraperTimer;
+    private ZoneId zoneID;
     
     /**
      * Constructs a MainContainer object.
      * 
-     * @param astronomyData - Used to construct the AstronomyPanel
-     * @param weatherData - Used to construct the WeatherPanel
      * @param frame - The WindowFrame that this MainContainer belongs to
      * @param parser - The parser used to create the weather and astronomy data
      */
-    public MainContainer(AstronomyData astronomyData, WeatherData weatherData, WindowFrame frame, Parser parser) {
+    public MainContainer(WindowFrame frame, Parser parser) {
         this.frame = frame;
         this.parser = parser;
+        zoneID = ZoneId.systemDefault();
         
         setLayout(new BorderLayout());
         
-        createPanels(astronomyData, weatherData);
+        createPanels(parser.getAstronomyData(), parser.getWeatherData());
         createColoursTimer();
         synchronizeHourlyScraping();
         
@@ -133,21 +134,38 @@ public class MainContainer extends JPanel {
      * @param newLocation - The new location
      */
     public void scrapeNewInfo(WebAddress newLocation) {
-        parser.updateParser(newLocation);
-        sunPanel.updateAstronomyData(parser.getAstronomyData());
-        temperaturePanel.updateWeatherData(parser.getWeatherData());
-        frame.updateTitle(newLocation);
-        
+        updateWebAddress(newLocation);
+        updateSunTimeData();
         updateTimeZonesOfDynamicPanels();
         updateDailyInformation(sliderPanel.getDay());
+    }
+    
+    /**
+     * Updates objects that hold WebAddresses.
+     * 
+     * @param newLocation - The new WebAddress
+     */
+    private void updateWebAddress(WebAddress newLocation) {
+        parser.updateParser(newLocation);
+        frame.updateTitle(newLocation);        
+    }
+    
+    /**
+     * Updates the panels that hold SunTimeData.
+     */
+    private void updateSunTimeData() {
+        sunPanel.updateAstronomyData(parser.getAstronomyData());
+        temperaturePanel.updateWeatherData(parser.getWeatherData());       
     }
     
     /**
      * Updates the time zones of the dynamic panels.
      */
     private void updateTimeZonesOfDynamicPanels() {
+        zoneID = parser.getTemporalData().getTimeZone();
+        
         for (SunTimePanel sunTimePanel : sunTimePanels) {
-            sunTimePanel.changeTimeZone(parser.getTemporalData().getTimeZone());
+            sunTimePanel.changeTimeZone(zoneID);
         }
     }
     
@@ -177,7 +195,7 @@ public class MainContainer extends JPanel {
      * Scrapes new information at the next hour.
      */
     private void scrapeAtTheNextHour() {
-        LocalTime nextHour = getTheNextExactHour();
+        ZonedDateTime nextHour = getTheNextExactHour();
         long difference = getDifferenceFromNextHour(nextHour);
         
         Toolkit.setTimeout(() -> scrapeHourly(), difference);       
@@ -189,10 +207,10 @@ public class MainContainer extends JPanel {
      * @param nextHour - The LocalTime object representing the next hour
      * @return the number of milliseconds between now and the next hour
      */
-    private long getDifferenceFromNextHour(LocalTime nextHour) {
+    private long getDifferenceFromNextHour(ZonedDateTime nextHour) {
         long difference;
         
-        difference = LocalTime.now().until(nextHour, ChronoUnit.SECONDS);           
+        difference = ZonedDateTime.now(zoneID).until(nextHour, ChronoUnit.SECONDS);           
         difference = Toolkit.convertSecondsToMilliseconds(difference);
         
         return difference;
@@ -203,8 +221,8 @@ public class MainContainer extends JPanel {
      * 
      * @return the next exact hour
      */
-    private LocalTime getTheNextExactHour() {
-        LocalTime nextHour = LocalTime.now();
+    private ZonedDateTime getTheNextExactHour() {
+        ZonedDateTime nextHour = ZonedDateTime.now(zoneID);
         
         nextHour = nextHour.plusHours(1);
         nextHour = nextHour.withMinute(0);
@@ -219,7 +237,7 @@ public class MainContainer extends JPanel {
      * @return true if it's an exact hour, false otherwise
      */
     private boolean isExactHour() {
-        LocalTime now = LocalTime.now();
+        ZonedDateTime now = ZonedDateTime.now(zoneID);
         
         return now.getMinute() == 0 && now.getSecond() == 0;
     }

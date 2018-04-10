@@ -50,6 +50,12 @@ public class WebAddress {
         return string;
     }
     
+    /**
+     * Checks if the string contains a radix point.
+     * 
+     * @param string - The string to be checked
+     * @return - The string without a radix point
+     */
     private String checkForRadix(String string) {
         if (string.contains(".")) {
             radixLocation = string.indexOf(".");
@@ -95,7 +101,7 @@ public class WebAddress {
      */
     private void returnRadix(int version) {
         if (radixLocation != -1) {
-            capitalizedVersions[version] = capitalizedVersions[version].substring(0, radixLocation) + "." + capitalizedVersions[version].substring(radixLocation);   
+            capitalizedVersions[version] = Toolkit.insertIntoStringAt(capitalizedVersions[version], ".", radixLocation);
         }
     }
     
