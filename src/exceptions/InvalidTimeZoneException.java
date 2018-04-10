@@ -6,6 +6,7 @@ package exceptions;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class InvalidTimeZoneException extends SunTimeException {
     private String invalidTimeZone;
     
@@ -14,7 +15,7 @@ public class InvalidTimeZoneException extends SunTimeException {
      * 
      * @param invalidTimeZone - the invalid time zone that caused the error
      */
-    public InvalidTimeZoneException(String invalidTimeZone) {
+    protected InvalidTimeZoneException(String invalidTimeZone) {
         this.invalidTimeZone = invalidTimeZone;
     }
 

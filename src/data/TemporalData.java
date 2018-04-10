@@ -1,6 +1,6 @@
 package data;
 
-import java.util.TimeZone;
+import java.time.ZoneId;
 
 import exceptions.InvalidTimeZoneException;
 import toolkit.Toolkit;
@@ -12,7 +12,7 @@ import toolkit.Toolkit;
  * @version 1.0
  */
 public class TemporalData {
-    private TimeZone timeZone;
+    private ZoneId timeZone;
     
     /**
      * Constructs a TemporalData.
@@ -40,7 +40,7 @@ public class TemporalData {
      * 
      * @return timeZone as a TimeZone
      */
-    public TimeZone getTimeZone() {
+    public ZoneId getTimeZone() {
         return timeZone;
     }
 }

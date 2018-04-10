@@ -11,8 +11,8 @@ import data.WebAddress;
  */
 @SuppressWarnings("serial")
 public class InvalidURLException extends SunTimeException {
-    private WebAddress webAddress;
-    private String extension;
+    protected WebAddress webAddress;
+    protected String extension;
     
     /**
      * Constructs an InvalidURLException object.
@@ -20,7 +20,7 @@ public class InvalidURLException extends SunTimeException {
      * @param webAddress - The invalid WebAddress object
      * @param extension - The URL extension of the invalid address
      */
-    public InvalidURLException(WebAddress webAddress, String extension) {
+    protected InvalidURLException(WebAddress webAddress, String extension) {
         this.webAddress = webAddress;
         this.extension = extension;
     }

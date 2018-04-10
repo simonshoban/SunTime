@@ -2,12 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import javax.swing.JPanel;
 
@@ -23,8 +19,9 @@ public abstract class SunTimePanel extends JPanel {
     private static final int GREEN_MULTIPLIER = 12;
     private static final int BLUE_MULTIPLIER = 15;
     
-    private static final int SECONDS_IN_HOUR = 3600;
-    private static final int SECONDS_IN_HALF_DAY = 43200;
+    private static final double SECONDS_IN_HOUR = 3600;
+    private static final double SECONDS_IN_HALF_DAY = 43200;
+    private static final double SECONDS_IN_WHOLE_DAY = 86400;
     
     private static final int[] RED_TIMES = {0, 96};
     private static final int[] GREEN_TIMES = {36, 180};
@@ -66,14 +63,8 @@ public abstract class SunTimePanel extends JPanel {
      * 
      * @param timeZone - The TimeZone object representing the new time zone
      */
-    public void changeTimeZone(TimeZone timeZone) {
-        String offset = timeZone.getDisplayName().substring(timeZone.getDisplayName().indexOf("T") + 1);
-        
-        offset = (offset.equals("ime")) ? "Z" : offset;
-        
-        System.out.println("offset: " + offset);
-        
-        zoneID = ZoneId.ofOffset("GMT", ZoneOffset.of(offset));
+    public void changeTimeZone(ZoneId timeZone) {
+        this.zoneID = timeZone;
         today = ZonedDateTime.now(zoneID);
     }
     
@@ -123,10 +114,13 @@ public abstract class SunTimePanel extends JPanel {
      */
     private void calculateSeconds() {
         int now = today.toLocalDateTime().toLocalTime().toSecondOfDay();
-        double radius = SECONDS_IN_HALF_DAY;
-        double x = now - SECONDS_IN_HALF_DAY;
+        double a = -1 / SECONDS_IN_HALF_DAY;
+        double xSquared = Math.pow(now, 2);
+        double x = now * SECONDS_IN_WHOLE_DAY * -1;
+        double horizontalShift = Math.pow(SECONDS_IN_HALF_DAY, 2);
+        double verticalShift = SECONDS_IN_HALF_DAY;
         
-        seconds = Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2));
+        seconds = a * (xSquared + x + horizontalShift) + verticalShift;
     }
     
     /**

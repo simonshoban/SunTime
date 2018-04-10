@@ -19,6 +19,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import exceptions.ExceptionFactory;
 import exceptions.InvalidURLException;
 
 /**
@@ -280,7 +281,7 @@ public class Parser {
                     doc = Jsoup.connect(url).get();
                 } catch (HttpStatusException e) {
                     String extension = astronomyDir + monthExtension;
-                    throw new InvalidURLException(webAddress, extension);
+                    ExceptionFactory.throwInvalidURLException(webAddress, extension);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -301,7 +302,7 @@ public class Parser {
                 url = domain + weatherDir;
                 doc = Jsoup.connect(url).get();
             } catch (HttpStatusException e) {
-                throw new InvalidURLException(webAddress, weatherDir);
+                ExceptionFactory.throwInvalidURLException(webAddress, weatherDir);
             } catch (IOException i) {
                 i.printStackTrace();
             }
@@ -319,7 +320,7 @@ public class Parser {
                 url = domain + timeDir;
                 doc = Jsoup.connect(url).get();
             } catch (HttpStatusException e) {
-                throw new InvalidURLException(webAddress, timeDir);
+                ExceptionFactory.throwInvalidURLException(webAddress, timeDir);
             } catch (IOException i) {
                 i.printStackTrace();
             }

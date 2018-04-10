@@ -142,6 +142,9 @@ public class MainContainer extends JPanel {
         updateDailyInformation(sliderPanel.getDay());
     }
     
+    /**
+     * Updates the time zones of the dynamic panels.
+     */
     private void updateTimeZonesOfDynamicPanels() {
         for (SunTimePanel sunTimePanel : sunTimePanels) {
             sunTimePanel.changeTimeZone(parser.getTemporalData().getTimeZone());

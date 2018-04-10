@@ -10,6 +10,7 @@ import toolkit.Toolkit;
  * @version 1.0
  */
 public class WebAddress {
+    private int radixLocation;
     private String domain;
     private String country;
     private String city;
@@ -37,11 +38,23 @@ public class WebAddress {
      * @return - The formatted string
      */
     private String formatString(String string, int version) {
+        radixLocation = -1;
         string = string.trim().toLowerCase();
+        string = checkForRadix(string);
         capitalizedVersions[version] = Toolkit.capitalize(string);
         
         string = parseAndRejoin(string, version, " ");
         string = parseAndRejoin(string, version, "-");
+        returnRadix(version);
+        
+        return string;
+    }
+    
+    private String checkForRadix(String string) {
+        if (string.contains(".")) {
+            radixLocation = string.indexOf(".");
+            string = string.replaceAll("\\.", "");
+        }
         
         return string;
     }
@@ -73,6 +86,26 @@ public class WebAddress {
         }
         
         return string;
+    }
+    
+    /**
+     * Returns the radix point to its original position in the capitalized versions of the web address strings.
+     * 
+     * @param version - The capitalized version to return the radix point to
+     */
+    private void returnRadix(int version) {
+        if (radixLocation != -1) {
+            capitalizedVersions[version] = capitalizedVersions[version].substring(0, radixLocation) + "." + capitalizedVersions[version].substring(radixLocation);   
+        }
+    }
+    
+    /**
+     * Checks if this WebAddress contains data for Saint Petersburg, Russia.
+     * 
+     * @return true if Saint Petersburg, false otherwise
+     */
+    public boolean isSaintPetersburg() {
+        return getCapitalizedCity().equals("Saint Petersburg") && getCapitalizedCountry().equals("Russia");
     }
     
     /**

@@ -17,7 +17,7 @@ class ToolkitTests {
 
     @Test
     void firstLetterUppercaseAndEverythingElseLowercase() {
-        assertTrue(Toolkit.capitalize("AbC").equals("Abc"));
+        assertTrue(Toolkit.capitalize("aBc").equals("Abc"));
     }
     
     @Test
@@ -27,7 +27,7 @@ class ToolkitTests {
     
     @Test
     void pacificStandardTimeStringReturnsCorrectGMTTimeZoneCode() throws InvalidTimeZoneException {
-        assertTrue(Toolkit.formatTimeZoneCode(" UTC/GMT -8 hours").getDisplayName().equals("GMT-08:00"));
+        assertTrue(Toolkit.formatTimeZoneCode(" UTC/GMT -8 hours").toString().equals("GMT-08:00"));
     }
 
 }
