@@ -50,6 +50,11 @@ public abstract class SunTimePanel extends JPanel {
     }
     
     /**
+     * Initializes the SunTimePanel.
+     */
+    public abstract void init();
+    
+    /**
      * Updates the background colour depending on the time of day.
      */
     public void updateColours() {

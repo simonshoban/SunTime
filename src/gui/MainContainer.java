@@ -38,6 +38,7 @@ public class MainContainer extends JPanel {
     private Timer coloursTimer;
     private Timer scraperTimer;
     private ZoneId zoneID;
+    private Thread thread;
     
     /**
      * Constructs a MainContainer object.
@@ -70,7 +71,7 @@ public class MainContainer extends JPanel {
     private void createPanels(AstronomyData astronomyData, WeatherData weatherData) {
         sunPanel = new AstronomyPanel(astronomyData);
         temperaturePanel = new WeatherPanel(weatherData);
-        timePanel = new TimePanel();       
+        timePanel = new TimePanel(zoneID);       
         sliderPanel = new SliderPanel(this);
         locationPanel = new LocationPanel(this);        
     }
@@ -100,11 +101,19 @@ public class MainContainer extends JPanel {
      * Initializes the MainContainer.
      */
     public void init() {
-        sunPanel.init();
-        temperaturePanel.init();
+        initSunTimePanels();
         coloursTimer.start();
         
         addElements();
+    }
+    
+    /**
+     * Initialize every SunTimePanel.
+     */
+    private void initSunTimePanels() {
+        for (SunTimePanel panel : sunTimePanels) {
+            panel.init();
+        }
     }
     
     /**
@@ -138,6 +147,7 @@ public class MainContainer extends JPanel {
         updateSunTimeData();
         updateTimeZonesOfDynamicPanels();
         updateDailyInformation(sliderPanel.getDay());
+        synchronizeHourlyScraping();
     }
     
     /**
@@ -163,6 +173,7 @@ public class MainContainer extends JPanel {
      */
     private void updateTimeZonesOfDynamicPanels() {
         zoneID = parser.getTemporalData().getTimeZone();
+        timePanel.updateTimeZone(zoneID);
         
         for (SunTimePanel sunTimePanel : sunTimePanels) {
             sunTimePanel.changeTimeZone(zoneID);
@@ -198,7 +209,11 @@ public class MainContainer extends JPanel {
         ZonedDateTime nextHour = getTheNextExactHour();
         long difference = getDifferenceFromNextHour(nextHour);
         
-        Toolkit.setTimeout(() -> scrapeHourly(), difference);       
+        if (thread != null) {
+            thread.interrupt();
+        }
+            
+        thread = Toolkit.setTimeout(() -> scrapeHourly(), difference);
     }
     
     /**

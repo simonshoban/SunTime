@@ -29,18 +29,23 @@ public class Toolkit {
      * 
      * @param runnable - The thing to be executed
      * @param delay - The delay in milliseconds
+     * @return the thread that will execute the given runnable after the delay
      */
-    public static void setTimeout(Runnable runnable, long delay) {
+    public static Thread setTimeout(Runnable runnable, long delay) {
         System.out.println("difference: " + delay + "\n");
         
-        new Thread(() -> {
+        Thread thread = new Thread(() -> {
             try {
                 Thread.sleep(delay);
                 runnable.run();
             } catch (InterruptedException e) {
                 System.err.println(e);
             }
-        }).start();
+        });
+        
+        thread.start();
+        
+        return thread;
     }
     
     /**

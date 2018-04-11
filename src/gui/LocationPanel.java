@@ -18,6 +18,7 @@ import toolkit.Toolkit;
  */
 @SuppressWarnings("serial")
 public class LocationPanel extends SunTimePanel {
+    private MainContainer container;
     private JTextField city;
     private JTextField country;
     private JButton submit;
@@ -28,9 +29,33 @@ public class LocationPanel extends SunTimePanel {
      * @param container - The MainContainer that this SunTimePanel belongs to
      */
     public LocationPanel(MainContainer container) {
+        this.container = container;
         city = new JTextField("Saint Peterburg");
         country = new JTextField("Russia");
         submit = new JButton("Submit");
+    }
+    
+    /**
+     * Initializes the LocationPanel.
+     */
+    public void init() {
+        addMouseListenerToSubmitButton();
+        addElements();
+    }
+    
+    /**
+     * Adds elements to the LocationPanel.
+     */
+    private void addElements() {
+        add(city, BorderLayout.NORTH);
+        add(country, BorderLayout.CENTER);
+        add(submit, BorderLayout.SOUTH);
+    }
+    
+    /**
+     * Adds a mouse listener to the submit button.
+     */
+    private void addMouseListenerToSubmitButton() {
         submit.addMouseListener(new MouseListener() {
 
             @Override
@@ -59,11 +84,7 @@ public class LocationPanel extends SunTimePanel {
             @Override
             public void mouseReleased(MouseEvent arg0) {
             }
-        });
-        
-        add(city, BorderLayout.NORTH);
-        add(country, BorderLayout.CENTER);
-        add(submit, BorderLayout.SOUTH);
+        });       
     }
     
     /**
