@@ -21,15 +21,13 @@ public class TimePanel extends SunTimePanel {
     private static final int FONT_SIZE = 42;
     private JLabel time;
     private ZonedDateTime now;
-    private ZoneId zoneID;
     
     /**
      * Constructs a TimePanel object.
      * 
-     * @param zoneID - The timezone
+     * @param zoneID - The time zone
      */
     public TimePanel(ZoneId zoneID) {
-        this.zoneID = zoneID;
         now = ZonedDateTime.now(zoneID);
         constructElements();
     }
@@ -72,9 +70,10 @@ public class TimePanel extends SunTimePanel {
     /**
      * Updates the time zone of this panel.
      * 
-     * @param timeZone - The new time zone
+     * @param zoneID - The new time zone
      */
-    public void updateTimeZone(ZoneId timeZone) {
-        zoneID = timeZone;
+    public void updateTimeZone(ZoneId zoneID) {
+        now = ZonedDateTime.now(zoneID);
+        updateTime(now.getDayOfYear());
     }
 }

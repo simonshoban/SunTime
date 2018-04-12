@@ -49,6 +49,15 @@ public class SliderPanel extends JPanel {
     }
     
     /**
+     * Sets the value of the JSlider to the given day.
+     * 
+     * @param dayOfYear - The day of the year to set the slider to
+     */
+    public void setSliderTo(int dayOfYear) {
+        slider.setValue(dayOfYear);
+    }
+    
+    /**
      * Gets the current day selected on the slider.
      * 
      * @return an int between 1 and 365

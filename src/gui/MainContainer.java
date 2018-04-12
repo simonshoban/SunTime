@@ -145,8 +145,9 @@ public class MainContainer extends JPanel {
     public void scrapeNewInfo(WebAddress newLocation) {
         updateWebAddress(newLocation);
         updateSunTimeData();
+        updateDailyInformation(ZonedDateTime.now(zoneID).getDayOfYear());
         updateTimeZonesOfDynamicPanels();
-        updateDailyInformation(sliderPanel.getDay());
+        sliderPanel.setSliderTo(ZonedDateTime.now(zoneID).getDayOfYear());
         synchronizeHourlyScraping();
     }
     
@@ -157,7 +158,8 @@ public class MainContainer extends JPanel {
      */
     private void updateWebAddress(WebAddress newLocation) {
         parser.updateParser(newLocation);
-        frame.updateTitle(newLocation);        
+        frame.updateTitle(newLocation);
+        zoneID = parser.getTemporalData().getTimeZone();
     }
     
     /**
@@ -172,7 +174,6 @@ public class MainContainer extends JPanel {
      * Updates the time zones of the dynamic panels.
      */
     private void updateTimeZonesOfDynamicPanels() {
-        zoneID = parser.getTemporalData().getTimeZone();
         timePanel.updateTimeZone(zoneID);
         
         for (SunTimePanel sunTimePanel : sunTimePanels) {

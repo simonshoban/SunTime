@@ -61,6 +61,7 @@ public abstract class SunTimePanel extends JPanel {
         resetValues(); 
         calculateColours();
         updateBackground();
+        //printColourValues();
     }   
     
     /**
@@ -146,5 +147,14 @@ public abstract class SunTimePanel extends JPanel {
      */
     private double calculateColour(double colour, int colourMultiplier) {
         return colour + multiplier * seconds / SECONDS_IN_HOUR * colourMultiplier;
+    }
+    
+    /**
+     * Prints out the RGB colour values of the dynamic background.
+     */
+    protected void printColourValues() {
+        System.out.println("\nRed: " + red);
+        System.out.println("Green: " + green);
+        System.out.println("Blue: " + blue);
     }
 }
