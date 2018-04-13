@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -38,7 +39,6 @@ public class MainContainer extends JPanel {
     private Timer coloursTimer;
     private Timer scraperTimer;
     private ZoneId zoneID;
-    private Thread thread;
     
     /**
      * Constructs a MainContainer object.
@@ -209,12 +209,23 @@ public class MainContainer extends JPanel {
     private void scrapeAtTheNextHour() {
         ZonedDateTime nextHour = getTheNextExactHour();
         long difference = getDifferenceFromNextHour(nextHour);
+        createNextHourTimer((int) difference);
+    }
+    
+    /**
+     * Creates a local timer that will scrape at the next hour. 
+     * 
+     * @param delay - The delay before scraping
+     */
+    private void createNextHourTimer(long delay) {
+        System.out.println("Will scrape in " + delay + " milliseconds");
+        java.util.Timer nextHourTimer = new java.util.Timer();
         
-        if (thread != null) {
-            thread.interrupt();
-        }
-            
-        thread = Toolkit.setTimeout(() -> scrapeHourly(), difference);
+        nextHourTimer.schedule(new TimerTask() {
+            public void run() {
+                scrapeHourly();
+            }
+        }, delay);
     }
     
     /**
@@ -226,7 +237,7 @@ public class MainContainer extends JPanel {
     private long getDifferenceFromNextHour(ZonedDateTime nextHour) {
         long difference;
         
-        difference = ZonedDateTime.now(zoneID).until(nextHour, ChronoUnit.SECONDS);           
+        difference = ZonedDateTime.now(zoneID).until(nextHour, ChronoUnit.SECONDS);
         difference = Toolkit.convertSecondsToMilliseconds(difference);
         
         return difference;
