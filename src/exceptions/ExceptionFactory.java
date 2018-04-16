@@ -33,4 +33,13 @@ public class ExceptionFactory {
     public static void throwInvalidTimeZoneException(String invalidTimeZone) throws InvalidTimeZoneException {
         throw new InvalidTimeZoneException(invalidTimeZone);
     }
+    
+    /**
+     * Throws a NotYetImplementedException.
+     * 
+     * @throws NotYetImplementedException always
+     */
+    public static void throwNotYetImplementedException() throws NotYetImplementedException {
+        throw new NotYetImplementedException();
+    }
 }

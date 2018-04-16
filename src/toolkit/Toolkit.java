@@ -1,5 +1,8 @@
 package toolkit;
 
+import java.util.TimerTask;
+import java.util.Timer;
+
 /**
  * A toolkit of useful stuff.
  * 
@@ -46,6 +49,18 @@ public class Toolkit {
         thread.start();
         
         return thread;
+    }
+    
+    /**
+     * Creates a java.util.Timer and passes it a TimerTask to be executed after delay milliseconds.
+     * 
+     * @param task - The task you want to perform after a delay
+     * @param delay - The number of milliseconds until you want the task to execute
+     */
+    public static void setTimeout(TimerTask task, long delay) {
+        Timer timer = new java.util.Timer();
+        
+        timer.schedule(task, delay);
     }
     
     /**

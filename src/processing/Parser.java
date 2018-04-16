@@ -23,7 +23,7 @@ import exceptions.ExceptionFactory;
 import exceptions.InvalidURLException;
 
 /**
- * Constructs a private Scraper and parses it's HTML data into something more useful.
+ * Constructs a private Scraper and parses it's HTML data into SunTimeData.
  * 
  * @author Simon Shoban
  * @version 1.0

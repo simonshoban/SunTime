@@ -209,7 +209,7 @@ public class MainContainer extends JPanel {
     private void scrapeAtTheNextHour() {
         ZonedDateTime nextHour = getTheNextExactHour();
         long difference = getDifferenceFromNextHour(nextHour);
-        createNextHourTimer((int) difference);
+        createNextHourTimer(difference);
     }
     
     /**
@@ -219,9 +219,8 @@ public class MainContainer extends JPanel {
      */
     private void createNextHourTimer(long delay) {
         System.out.println("Will scrape in " + delay + " milliseconds");
-        java.util.Timer nextHourTimer = new java.util.Timer();
         
-        nextHourTimer.schedule(new TimerTask() {
+        Toolkit.setTimeout(new TimerTask() {
             public void run() {
                 scrapeHourly();
             }

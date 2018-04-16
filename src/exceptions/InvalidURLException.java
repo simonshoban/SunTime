@@ -37,7 +37,7 @@ public class InvalidURLException extends SunTimeException {
      */
     public void printErrorMessage() {
         error("InvalidURLException!");
-        error("Invalid URL: " + webAddress.getDomain() + extension + "/n");
+        error("Invalid URL: " + webAddress.getDomain() + extension + "\n");
         error("Domain: " + webAddress.getDomain());
         error("Country: " + webAddress.getCountry());
         error("City: " + webAddress.getCity());
