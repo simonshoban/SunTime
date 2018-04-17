@@ -6,6 +6,7 @@ package exceptions;
  * @author Simon Shoban
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class NotYetImplementedException extends SunTimeException {
     /**
      * Constructs a NotYetImplementedException and prints it's error message.

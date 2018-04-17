@@ -126,7 +126,7 @@ public abstract class SunTimePanel extends JPanel {
         double horizontalShift = Math.pow(SECONDS_IN_HALF_DAY, 2);
         double verticalShift = SECONDS_IN_HALF_DAY;
         
-        seconds = a * (xSquared + x + horizontalShift) + verticalShift;
+        seconds = a * (xSquared + x + horizontalShift) + verticalShift; //Vertex form quadratic equation
     }
     
     /**

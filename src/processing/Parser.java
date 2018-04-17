@@ -137,8 +137,9 @@ public class Parser {
                 URL url = new URL(imageLocation);
                 File file = new File("not_null");
                 
-                FileUtils.copyURLToFile(url, file);
+                FileUtils.copyURLToFile(url, file);                
                 weatherImages[index] = ImageIO.read(file);
+                file.delete();
             } catch (IOException i) {
                 i.printStackTrace();
             }  
@@ -222,10 +223,7 @@ public class Parser {
         Scraper() {
             backupWebAddress = webAddress;
             domain = webAddress.getDomain();
-            domainExtension = webAddress.getCountry() + "/" + webAddress.getCity();
-            astronomyDir = "sun/" + domainExtension;
-            weatherDir = "weather/" + domainExtension;
-            timeDir = "time/zone/" + domainExtension;
+            changeCity();
         }
         
         /**
@@ -246,13 +244,30 @@ public class Parser {
                 scrapeAstronomy();     
                 scrapeWeather();
                 scrapeTimeZone();
-                backupWebAddress = webAddress;
+                updateBackupAddress();
             } catch (InvalidURLException i) {
                 i.printErrorMessage();
-                webAddress = backupWebAddress;
+                useBackupAddress();
             }
             
             System.out.println();
+        }
+        
+        /**
+         * Replace the current backup address with a new successful web address.
+         */
+        private void updateBackupAddress() {
+            backupWebAddress = webAddress;
+        }
+        
+        /**
+         * Uses the backup address in case the new address causes an error.
+         */
+        private void useBackupAddress() {
+            webAddress = backupWebAddress;
+            System.out.println("Reverting to " + webAddress.getCapitalizedCity() + "\n");
+            changeCity();
+            scrapeEverything();
         }
         
         /**

@@ -33,6 +33,7 @@ public class Toolkit {
      * @param runnable - The thing to be executed
      * @param delay - The delay in milliseconds
      * @return the thread that will execute the given runnable after the delay
+     * @deprecated
      */
     public static Thread setTimeout(Runnable runnable, long delay) {
         System.out.println("difference: " + delay + "\n");
