@@ -198,6 +198,16 @@ public class Parser {
     public WebAddress getWebAddress() {
         return webAddress;
     }
+    
+    /**
+     * Asks the scraper if the given web address is valid.
+     * 
+     * @param testAddress - The WedAddress to validate
+     * @return true if valid, false otherwise
+     */
+    public boolean isValidAddress(WebAddress testAddress) {
+        return webScraper.isValidWebAddress(testAddress);
+    }
 
     /**
      * Scrapes timeanddate.com for information.
@@ -237,6 +247,28 @@ public class Parser {
         }
         
         /**
+         * Checks if the given WebAddress is valid.
+         * @param testAddress the WebAddress object to test
+         * @return true if valid, false if invalid
+         */
+        public boolean isValidWebAddress(WebAddress testAddress) {
+            webAddress = testAddress;
+            changeCity();
+            try {                
+                Jsoup.connect(domain + astronomyDir).get();
+                Jsoup.connect(domain + weatherDir).get();
+                Jsoup.connect(domain + timeDir).get();
+                return true;
+            } catch (HttpStatusException e) {
+                useBackupAddress();
+                return false;
+            } catch (IOException i) {
+                useBackupAddress();
+                return false;
+            }
+        }
+        
+        /**
          * Scrapes astronomy and weather information for the city.
          */
         private void scrapeEverything() {
@@ -249,8 +281,6 @@ public class Parser {
                 i.printErrorMessage();
                 useBackupAddress();
             }
-            
-            System.out.println();
         }
         
         /**
@@ -265,9 +295,7 @@ public class Parser {
          */
         private void useBackupAddress() {
             webAddress = backupWebAddress;
-            System.out.println("Reverting to " + webAddress.getCapitalizedCity() + "\n");
             changeCity();
-            scrapeEverything();
         }
         
         /**

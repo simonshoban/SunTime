@@ -12,8 +12,6 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import data.WeatherData;
-import data.AstronomyData;
 import data.WebAddress;
 import toolkit.Toolkit;
 import processing.Parser;
@@ -53,24 +51,18 @@ public class MainContainer extends JPanel {
         
         setLayout(new BorderLayout());
         
-        createPanels(parser.getAstronomyData(), parser.getWeatherData());
+        createPanels();
         createColoursTimer();
-        synchronizeHourlyScraping();
-        
-        sunTimePanels = new ArrayList<SunTimePanel>();
-        
+        synchronizeHourlyScraping();                       
         fillSunTimePanels();
     }
     
     /**
      * Creates all the panels.
-     * 
-     * @param astronomyData - the data used to create the AstronomyPanel
-     * @param weatherData - the data used to create the WeatherPanel
      */
-    private void createPanels(AstronomyData astronomyData, WeatherData weatherData) {
-        sunPanel = new AstronomyPanel(astronomyData);
-        temperaturePanel = new WeatherPanel(weatherData);
+    private void createPanels() {
+        sunPanel = new AstronomyPanel(parser.getAstronomyData());
+        temperaturePanel = new WeatherPanel(parser.getWeatherData());
         timePanel = new TimePanel(zoneID);       
         sliderPanel = new SliderPanel(this);
         locationPanel = new LocationPanel(this);        
@@ -91,6 +83,7 @@ public class MainContainer extends JPanel {
      * Adds all SunTimePanels to the sunTimePanels ArrayList.
      */
     private void fillSunTimePanels() {
+        sunTimePanels = new ArrayList<SunTimePanel>();
         sunTimePanels.add(sunPanel);
         sunTimePanels.add(temperaturePanel);
         sunTimePanels.add(timePanel);
@@ -145,10 +138,19 @@ public class MainContainer extends JPanel {
     public void scrapeNewInfo(WebAddress newLocation) {
         updateWebAddress(newLocation);
         updateSunTimeData();
-        updateDailyInformation(ZonedDateTime.now(zoneID).getDayOfYear());
+        updateDailyInformation(getDayOfYear());
         updateTimeZonesOfDynamicPanels();
-        sliderPanel.setSliderTo(ZonedDateTime.now(zoneID).getDayOfYear());
+        updateSlider(getDayOfYear());
         synchronizeHourlyScraping();
+    }
+    
+    /**
+     * Gets the day of the year from the zoneID.
+     * 
+     * @return - the day of the year according to the zoneID
+     */
+    private int getDayOfYear() {
+        return ZonedDateTime.now(zoneID).getDayOfYear();
     }
     
     /**
@@ -157,9 +159,11 @@ public class MainContainer extends JPanel {
      * @param newLocation - The new WebAddress
      */
     private void updateWebAddress(WebAddress newLocation) {
-        parser.updateParser(newLocation);
-        frame.updateTitle(newLocation);
-        zoneID = parser.getTemporalData().getTimeZone();
+        if (parser.isValidAddress(newLocation)) {
+            parser.updateParser(newLocation);
+            frame.updateTitle(newLocation);
+            zoneID = parser.getTemporalData().getTimeZone();
+        }        
     }
     
     /**
@@ -190,6 +194,14 @@ public class MainContainer extends JPanel {
             sunTimePanel.updateColours();
             repaint();
         }
+    }
+    
+    /**
+     * Updates the JSlider in the SliderPanel to the given day.
+     * @param dayOfYear - the day to set the slider to
+     */
+    private void updateSlider(int dayOfYear) {
+        sliderPanel.setSliderTo(dayOfYear);
     }
     
     /**
